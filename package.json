@@ -9,10 +9,16 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@intlify/unplugin-vue-i18n": "^0.11.0",
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18",
     "nuxt": "^3.6.0",
-    "typescript": "latest"
+    "typescript": "^4.8.4",
+    "vue-i18n": "^9.2.2"
+  },
+  "dependencies": {
+    "@heroicons/vue": "^2.0.18",
+    "normalize.css": "^8.0.1"
   }
 }

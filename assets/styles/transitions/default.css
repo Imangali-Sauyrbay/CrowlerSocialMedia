@@ -1,0 +1,3 @@
+.default-transition {
+    @apply transition ease-in-out duration-300;
+}

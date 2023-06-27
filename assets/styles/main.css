@@ -1,0 +1,7 @@
+@import 'normalize.css';
+@import './transitions/default.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+

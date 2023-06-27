@@ -1,0 +1,12 @@
+{
+    "nav": {
+        "home": "Home",
+        "explore": "Explore",
+        "notifications": "Notifications",
+        "messages": "Messages",
+        "lists": "Lists",
+        "bookmarks": "Bookmarks",
+        "user-profile": "User profile",
+        "more": "More"
+    }
+}
