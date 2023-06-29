@@ -8,5 +8,17 @@
         "bookmarks": "Bookmarks",
         "user-profile": "User profile",
         "more": "More"
+    },
+
+    "sidebar": {
+        "right": {
+            "titles": {
+                "news": "What's happening",
+                "to-follow": "Who to follow"
+            },
+
+            "show-more": "Show more...",
+            "follow": "Follow"
+        }
     }
 }

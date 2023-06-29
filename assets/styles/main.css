@@ -5,3 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+html, body, #__nuxt {
+    height: 100%;
+}
+
+.default-border-color {
+    @apply border-gray-300 dark:border-gray-700
+}

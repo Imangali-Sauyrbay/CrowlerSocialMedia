@@ -27,8 +27,8 @@ defineProps<{ active?: boolean, textContent?: string }>()
 }
 
 .tab-tooltip {
-    @apply w-max absolute hidden;
-    left: 120%;
+    @apply w-max fixed hidden bg-white dark:bg-dim-800 rounded-full px-2 py-1 shadow-slate-500 shadow-md;
+    left: 9%;
 }
 
 .tab-text {

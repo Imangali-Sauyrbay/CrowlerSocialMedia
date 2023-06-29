@@ -23,7 +23,7 @@ import {
             </NuxtLink>
         </div>
 
-        <nav class="space-y-1 ml-1">
+        <nav class="space-y-1 xs:ml-1">
             <SidebarLeftTab active :textContent="$t('nav.home')">
                 <template #icon="{ isActive }">
                     <HomeIconSolid v-if="isActive" />
@@ -86,14 +86,14 @@ import {
 
 <style scoped>
 .logo-container {
-    @apply w-8 h-8;
+    @apply w-7 h-7;
 }
 
 .sidebar-left-container {
-    @apply flex flex-col h-screen w-min;
+    @apply flex flex-col h-full w-full items-end pr-2 xl:items-start xl:pr-0 xl:pl-2;
 }
 
 .logo-link-container {
-    @apply p-2 my-2 hover:bg-blue-100 rounded-full w-min dark:hover:bg-white/20;
+    @apply p-1 xs:p-2 my-2 hover:bg-blue-100 rounded-full w-min dark:hover:bg-white/20;
 }
 </style>
