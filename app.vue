@@ -38,7 +38,7 @@ onBeforeUnmount(() => {
                     </div>
 
                     <!-- Main Content -->
-                    <main class="col-span-12 xxs:col-span-11 md:col-span-8 xl:col-span-7 bg-red-500 h-full w-full">
+                    <main class="main col-span-12 xxs:col-span-11 md:col-span-8 xl:col-span-7 h-full w-full">
                         <NuxtPage />
                     </main>
 
@@ -54,3 +54,9 @@ onBeforeUnmount(() => {
         </div>
     </div>
 </template>
+
+<style>
+    .main > div {
+        @apply h-full;
+    }
+</style>
