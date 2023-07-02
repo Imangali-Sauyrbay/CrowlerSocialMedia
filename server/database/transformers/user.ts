@@ -1,4 +1,4 @@
-import { User } from "@prisma/client"
+import { User } from "@prisma/client";
 
 export const userExcludeTransformer = (user: User) => {
     return {
@@ -6,6 +6,6 @@ export const userExcludeTransformer = (user: User) => {
         email: user.email,
         name: user.name,
         username: user.username,
-        profile: user.profile
-    }
-}
+        profile: user.profile,
+    };
+};

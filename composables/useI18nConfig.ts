@@ -5,7 +5,7 @@ import {
     asyncSetLocale,
     getLocale,
     getLocaleFromStorage,
-} from '~/plugins/i18n'
+} from "~/plugins/i18n";
 
 export const useI18nConfig = () => ({
     DEFAULT_LOCALE,
@@ -14,4 +14,4 @@ export const useI18nConfig = () => ({
     asyncSetLocale,
     getLocale,
     getLocaleFromStorage,
-})
+});

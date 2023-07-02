@@ -2,15 +2,20 @@
 defineProps({
     makeInteractive: {
         type: Boolean,
-        default: true
-    }
-})
+        default: true,
+    },
+});
 </script>
 
 <template>
     <div
-        class="p-3 border-b default-border-color default-transition"
-        :class="[makeInteractive ? 'hover:bg-gray-200 dark:hover:bg-dim-300 cursor-pointer' : '']">
+        class="default-border-color default-transition border-b p-3"
+        :class="[
+            makeInteractive
+                ? 'cursor-pointer hover:bg-gray-200 dark:hover:bg-dim-300'
+                : '',
+        ]"
+    >
         <slot></slot>
     </div>
 </template>

@@ -1,15 +1,16 @@
-@import 'normalize.css';
-@import './transitions/default.css';
+@import "normalize.css";
+@import "./transitions/default.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
-html, body, #__nuxt {
+html,
+body,
+#__nuxt {
     height: 100%;
 }
 
 .default-border-color {
-    @apply border-gray-300 dark:border-gray-700
+    @apply border-gray-300 dark:border-gray-700;
 }

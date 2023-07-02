@@ -1,5 +1,14 @@
 <script lang="ts" setup>
-import { HomeIcon, HashtagIcon, BellIcon, InboxIcon, BookmarkIcon, DocumentTextIcon, UserIcon, EllipsisHorizontalCircleIcon } from '@heroicons/vue/24/outline'
+import {
+    HomeIcon,
+    HashtagIcon,
+    BellIcon,
+    InboxIcon,
+    BookmarkIcon,
+    DocumentTextIcon,
+    UserIcon,
+    EllipsisHorizontalCircleIcon,
+} from "@heroicons/vue/24/outline";
 import {
     HomeIcon as HomeIconSolid,
     HashtagIcon as HashtagIconSolid,
@@ -8,9 +17,8 @@ import {
     BookmarkIcon as BookmarkIconSolid,
     DocumentTextIcon as DocumentTextIconSolid,
     UserIcon as UserIconSolid,
-    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid
-} from '@heroicons/vue/24/solid'
-
+    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid,
+} from "@heroicons/vue/24/solid";
 </script>
 
 <template>
@@ -24,57 +32,56 @@ import {
         </div>
 
         <nav class="space-y-1 xs:ml-1">
-            <SidebarLeftTab active :textContent="$t('nav.home')">
+            <SidebarLeftTab active :text-content="$t('nav.home')">
                 <template #icon="{ isActive }">
                     <HomeIconSolid v-if="isActive" />
                     <HomeIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.explore')">
+            <SidebarLeftTab :text-content="$t('nav.explore')">
                 <template #icon="{ isActive }">
                     <HashtagIconSolid v-if="isActive" />
                     <HashtagIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.notifications')">
+            <SidebarLeftTab :text-content="$t('nav.notifications')">
                 <template #icon="{ isActive }">
                     <BellIconSolid v-if="isActive" />
                     <BellIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.messages')">
+            <SidebarLeftTab :text-content="$t('nav.messages')">
                 <template #icon="{ isActive }">
                     <InboxIconSolid v-if="isActive" />
                     <InboxIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.lists')">
+            <SidebarLeftTab :text-content="$t('nav.lists')">
                 <template #icon="{ isActive }">
                     <DocumentTextIconSolid v-if="isActive" />
                     <DocumentTextIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.bookmarks')">
+            <SidebarLeftTab :text-content="$t('nav.bookmarks')">
                 <template #icon="{ isActive }">
                     <BookmarkIconSolid v-if="isActive" />
                     <BookmarkIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-            <SidebarLeftTab :textContent="$t('nav.user-profile')">
+            <SidebarLeftTab :text-content="$t('nav.user-profile')">
                 <template #icon="{ isActive }">
                     <UserIconSolid v-if="isActive" />
                     <UserIcon v-else />
                 </template>
             </SidebarLeftTab>
 
-
-            <SidebarLeftTab :textContent="$t('nav.more')">
+            <SidebarLeftTab :text-content="$t('nav.more')">
                 <template #icon="{ isActive }">
                     <EllipsisHorizontalCircleIconSolid v-if="isActive" />
                     <EllipsisHorizontalCircleIcon v-else />
@@ -86,14 +93,14 @@ import {
 
 <style scoped>
 .logo-container {
-    @apply w-7 h-7;
+    @apply h-7 w-7;
 }
 
 .sidebar-left-container {
-    @apply flex flex-col h-full w-full items-end pr-2 xl:items-start xl:pr-0 xl:pl-2;
+    @apply flex h-full w-full flex-col items-end pr-2 xl:items-start xl:pl-2 xl:pr-0;
 }
 
 .logo-link-container {
-    @apply p-1 xs:p-2 my-2 hover:bg-blue-100 rounded-full w-min dark:hover:bg-white/20;
+    @apply my-2 w-min rounded-full p-1 hover:bg-blue-100 dark:hover:bg-white/20 xs:p-2;
 }
 </style>

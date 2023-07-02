@@ -1,28 +1,31 @@
-import { resolve, dirname } from 'node:path'
-import { fileURLToPath } from 'url'
-import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "url";
+import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
-  css: ['~/assets/styles/main.css'],
-  vite: {
-    plugins: [
-      VueI18nVitePlugin({
-        include: [
-          resolve(dirname(fileURLToPath(import.meta.url)), './locales/*.json')
-        ]
-      })
-    ]
-  },
+    devtools: { enabled: true },
+    modules: ["@nuxtjs/tailwindcss"],
+    css: ["~/assets/styles/main.css"],
+    vite: {
+        plugins: [
+            VueI18nVitePlugin({
+                include: [
+                    resolve(
+                        dirname(fileURLToPath(import.meta.url)),
+                        "./locales/*.json"
+                    ),
+                ],
+            }),
+        ],
+    },
 
-  alias: {
-    '@server': '@/server'
-  },
+    alias: {
+        "@server": "@/server",
+    },
 
-  runtimeConfig: {
-    jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
-    jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET
-  }
-})
+    runtimeConfig: {
+        jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET,
+        jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
+    },
+});

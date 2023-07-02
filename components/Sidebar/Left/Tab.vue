@@ -1,13 +1,16 @@
 <script lang="ts" setup>
-defineProps<{ active?: boolean, textContent?: string }>()
+defineProps<{ active?: boolean; textContent?: string }>();
 </script>
 
 <template>
     <NuxtLink class="tab default-transition">
         <div class="tab-icon">
-            <slot name="icon" :isActive="active"></slot>
+            <slot name="icon" :is-active="active"></slot>
         </div>
-        <div class="tab-text" :class="[active ? 'font-semibold' : 'font-normal']">
+        <div
+            class="tab-text"
+            :class="[active ? 'font-semibold' : 'font-normal']"
+        >
             {{ textContent }}
         </div>
 
@@ -19,20 +22,20 @@ defineProps<{ active?: boolean, textContent?: string }>()
 
 <style scoped>
 .tab {
-    @apply relative flex items-center p-2 cursor-pointer w-fit rounded-full text-black hover:bg-gray-200 dark:hover:bg-dim-200 dark:text-white;
+    @apply relative flex w-fit cursor-pointer items-center rounded-full p-2 text-black hover:bg-gray-200 dark:text-white dark:hover:bg-dim-200;
 }
 
 .tab-icon {
-    @apply w-6 h-6;
+    @apply h-6 w-6;
 }
 
 .tab-tooltip {
-    @apply w-max fixed hidden bg-white dark:bg-dim-800 rounded-full px-2 py-1 shadow-slate-500 shadow-md;
+    @apply fixed hidden w-max rounded-full bg-white px-2 py-1 shadow-md shadow-slate-500 dark:bg-dim-800;
     left: 9%;
 }
 
 .tab-text {
-    @apply ml-4 text-lg hidden xl:block;
+    @apply ml-4 hidden text-lg xl:block;
 }
 
 .tab:hover .tab-tooltip {
