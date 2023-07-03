@@ -5,7 +5,35 @@ const loading = ref(false);
 <template>
     <div>
         <MainSection :title="$t('nav.home')" :loading="loading">
-            <p class="my-96">Content</p>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
+            <div>Content</div>
         </MainSection>
     </div>
 </template>

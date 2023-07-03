@@ -34,16 +34,11 @@ onBeforeUnmount(() => {
                 <div
                     class="mx-auto grid h-full grid-cols-12 sm:px-6 lg:max-w-7xl lg:gap-5 lg:px-8"
                 >
-                    <!-- Left sidebar  -->
-                    <div
-                        class="col-span-1 hidden h-full min-w-max overflow-y-auto overflow-x-hidden scrollbar-none xxs:block xl:col-span-2"
-                    >
-                        <SidebarLeft />
-                    </div>
+                    <SidebarLeft />
 
                     <!-- Main Content -->
                     <main
-                        class="main col-span-12 h-full w-full xxs:col-span-11 md:col-span-8 xl:col-span-7"
+                        class="main col-span-12 h-full max-h-screen w-full xxs:col-span-11 md:col-span-8 xl:col-span-7"
                     >
                         <NuxtPage />
                     </main>
