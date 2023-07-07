@@ -20,5 +20,37 @@
             "show-more": "Show more...",
             "follow": "Follow"
         }
+    },
+
+    "form": {
+        "submit": "Submit",
+
+        "username": {
+            "label": "Username",
+            "placeholder": "{'@'}username"
+        },
+
+        "password": {
+            "label": "Password",
+            "placeholder": "********"
+        }
+    },
+
+    "validation": {
+        "rules": {
+            "min-string": "The field {field} must have a minimum length of {length} characters.",
+            "required": "The field {field} is required.",
+            "must-contain-characters": "The field {field} must contain at least {count} of the following special characters: {characters}.",
+            "must-contain-uppercase": "The field {field} must contain at least {count} uppercase characters.",
+            "must-contain-number": "The field {field} must contain at least {count} numeric characters.",
+            "not-exists": "The field {field} has an unrecognized value.",
+            "not-match": "The field {field} does not match with record from database."
+        },
+
+        "fields": {
+            "default": "this field",
+            "username": "\"Username\"",
+            "password": "\"Password\""
+        }
     }
 }

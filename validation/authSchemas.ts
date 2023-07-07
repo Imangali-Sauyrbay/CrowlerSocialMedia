@@ -11,11 +11,11 @@ export const RegistrationSchema = Yup.object({
     email: Yup.string().matches(emailRegex, "email").required(),
     password: Yup.string()
         .min(8)
-        .matches(/[A-ZА-ЯЁ]/, "password-must-contain:uppercase")
-        .matches(/\d/, "password-must-contain:number")
+        .matches(/[A-ZА-ЯЁ]/, "must-contain:uppercase")
+        .matches(/\d/, "must-contain:number")
         .matches(
             /[!@#$%^&*_-]/,
-            "password-must-contain:special-character,-!@#$%^&*_"
+            "must-contain:special-character,-!@#$%^&*_"
         )
         .required(),
     password_confirm: Yup.string()

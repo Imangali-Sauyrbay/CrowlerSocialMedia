@@ -6,16 +6,20 @@ export const validationErrorHandler = (e: unknown) => {
     if (!(e instanceof ValidationError)) return null;
 
     const errors = e as ValidationError;
-
-    const validationErrors: Record<string, string> = {};
-
+    const validationErrors: Map<string, string> = new Map();
+    
+    if(errors.inner.length === 0 && errors.path) {
+        validationErrors.set(errors.path, errors.message)
+        return validationErrors;
+    }
+    
     errors.inner.forEach((error) => {
         const { path, message } = error;
 
         if (message.startsWith("no-unknown-keys:") && !path)
-            validationErrors["unknown-fields"] = message;
+            validationErrors.set("unknown-fields", message);
 
-        if (path) validationErrors[path] = message;
+        if (path) validationErrors.set(path, message);
     });
 
     return validationErrors;

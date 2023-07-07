@@ -16,7 +16,7 @@ const getState = (): boolean => {
 if (process.client) setSate(getState());
 
 export const useDarkMode = () => {
-    const state = useState("darkMode", () => false);
+    const state = useState("darkMode", () => true);
 
     if (process.client) {
         watch(state, (newState) => {

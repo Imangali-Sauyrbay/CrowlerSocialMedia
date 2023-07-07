@@ -12,26 +12,18 @@ useHead({
 const darkMode = useDarkMode();
 
 const { isFirstLoading } = useFirstLoaderBus();
-const handleDarkModeToggle = (e: KeyboardEvent) => {
-    if (e.key.toLowerCase() === "d") {
-        darkMode.value = !darkMode.value;
-    }
-};
-
-onMounted(() => {
-    window.addEventListener("keypress", handleDarkModeToggle);
-});
-
-onBeforeUnmount(() => {
-    window.removeEventListener("keypress", handleDarkModeToggle);
-});
+const { useAuthUser } = useAuth()
+const user = useAuthUser()
 </script>
 
 <template>
     <div class="h-full" :class="{ dark: darkMode }">
         <div class="h-full bg-white dark:bg-dim-900">
-            <div v-show="!isFirstLoading" class="h-full">
+            <!-- App -->
+            <div v-if="user" class="h-full">
+                <!-- Main Screen -->
                 <div
+                    v-show="!isFirstLoading"
                     class="mx-auto grid h-full grid-cols-12 sm:px-6 lg:max-w-7xl lg:gap-5 lg:px-8"
                 >
                     <SidebarLeft />
@@ -50,9 +42,13 @@ onBeforeUnmount(() => {
                         <SidebarRight />
                     </div>
                 </div>
+
+                <!-- Splash Screen -->
+                <SplashScreen v-show="isFirstLoading" />
             </div>
 
-            <SplashScreen v-show="isFirstLoading" />
+            <!-- Auth -->
+            <AuthPage v-else/>
         </div>
     </div>
 </template>

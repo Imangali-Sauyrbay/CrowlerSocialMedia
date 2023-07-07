@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { type User } from "@prisma/client";
 import jwt from "jsonwebtoken"; /* eslint-disable-line */
 import { type H3Event } from "h3";
 

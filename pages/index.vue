@@ -4,7 +4,11 @@ const loading = ref(false);
 
 <template>
     <div>
-        <MainSection :title="$t('nav.home')" :loading="loading">
+        <MainSection
+            class="text-black dark:text-white"
+            :title="$t('nav.home')"
+            :loading="loading"
+        >
             <div>Content</div>
             <div>Content</div>
             <div>Content</div>

@@ -8,7 +8,7 @@ const headerHeight = ref("0px");
 onMounted(() => {
     const bounds = header.value?.getBoundingClientRect();
 
-    if (bounds) headerHeight.value = bounds.height + "px";
+    if (bounds) headerHeight.value = bounds.height.toString().concat("px");
 });
 </script>
 
@@ -18,7 +18,7 @@ onMounted(() => {
     >
         <div
             ref="header"
-            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/20"
+            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30"
         >
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}

@@ -27,12 +27,8 @@ const setTooltipPosition = () => {
 </script>
 
 <template>
-    <div
-        ref="tabRef"
-        class="tab default-transition"
-        @pointerenter="setTooltipPosition"
-    >
-        <NuxtLink>
+    <div ref="tabRef" class="w-full" @pointerenter="setTooltipPosition">
+        <NuxtLink class="tab default-transition">
             <div class="tab-icon">
                 <slot name="icon" :is-active="active"></slot>
             </div>

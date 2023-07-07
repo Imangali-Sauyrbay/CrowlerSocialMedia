@@ -4,9 +4,18 @@ import VueI18nVitePlugin from "@intlify/unplugin-vue-i18n/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-    devtools: { enabled: true },
-    modules: ["@nuxtjs/tailwindcss"],
+    devtools: { enabled: false },
+
+    modules: [
+        "@nuxtjs/tailwindcss",
+        "@vue-macros/nuxt",
+        "@nuxtjs/fontaine",
+        "@vueuse/nuxt",
+        "magic-regexp/nuxt"
+    ],
+
     css: ["~/assets/styles/main.css"],
+    
     vite: {
         plugins: [
             VueI18nVitePlugin({
