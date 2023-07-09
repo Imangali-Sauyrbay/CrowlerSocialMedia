@@ -24,6 +24,7 @@
 
     "form": {
         "submit": "Submit",
+        "login": "Login",
 
         "username": {
             "label": "Username",

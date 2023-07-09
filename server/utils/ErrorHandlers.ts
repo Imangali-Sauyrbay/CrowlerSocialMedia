@@ -1,6 +1,7 @@
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { ValidationError } from "yup";
 import { createValidationError } from "~/server/utils/ErrorFactories";
+import { convertMapToRecord } from "~/utils/BaseUtils";
 
 export const validationErrorHandler = (e: unknown) => {
     if (!(e instanceof ValidationError)) return null;
@@ -27,8 +28,8 @@ export const validationErrorHandler = (e: unknown) => {
 
 export const defaultErrorHandler = (e: unknown) => {
     const validationError = validationErrorHandler(e);
-
-    if (validationError) return createValidationError(validationError);
+    
+    if (validationError) return createValidationError(convertMapToRecord(validationError));
 
     return createError({
         status: StatusCodes.INTERNAL_SERVER_ERROR,

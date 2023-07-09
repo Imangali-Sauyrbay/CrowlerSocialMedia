@@ -27,3 +27,9 @@ export const isUserExists = async (username: string) => {
     const user = await findUserByUsername(username);
     return user !== null;
 };
+
+export const findUserByID = (id: number) => {
+    return prisma.user.findUnique({
+        where: { id },
+    })
+}

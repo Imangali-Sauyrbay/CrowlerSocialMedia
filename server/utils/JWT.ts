@@ -1,5 +1,5 @@
 import { type User } from "@prisma/client";
-import jwt from "jsonwebtoken"; /* eslint-disable-line */
+import jwt, { type JwtPayload } from "jsonwebtoken"; /* eslint-disable-line */
 import { type H3Event } from "h3";
 
 type Tokens = {
@@ -36,3 +36,39 @@ export const sendRefreshToken = (event: H3Event, refreshToken: string) => {
         sameSite: true,
     });
 };
+
+export const decodeRefreshToken = (token: string) => {
+    const config = useRuntimeConfig();
+
+    try {
+        const decoded = jwt.verify(token, config.jwtRefreshSecret)
+
+        if (typeof decoded === 'string') {
+            return {
+                payload: decoded
+            } as JwtPayload
+        }
+
+        return decoded
+    } catch (error) {
+        return null
+    }
+}
+
+export const decodeAccessToken = (token: string) => {
+    const config = useRuntimeConfig();
+
+    try {
+        const decoded = jwt.verify(token, config.jwtAccessSecret)
+
+        if (typeof decoded === 'string') {
+            return {
+                payload: decoded
+            } as JwtPayload
+        }
+
+        return decoded
+    } catch (error) {
+        return null
+    }
+}

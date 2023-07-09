@@ -1,31 +1,41 @@
 <script lang="ts" setup>
-useHead({
-    title: "Crowler",
-    link: [
-        {
-            rel: "shortcut icon",
-            href: "favicon.ico",
-        },
-    ],
-});
-
 const darkMode = useDarkMode();
 
 const { isFirstLoading } = useFirstLoaderBus();
-const { useAuthUser } = useAuth()
+const { useAuthUser, initAuth, useAuthInitializing } = useAuth()
 const user = useAuthUser()
+
+const authLoading = useAuthInitializing()
+
+onBeforeMount(() => {
+    initAuth()
+})
 </script>
 
 <template>
+    <Head>
+        <Title>Crowler</Title>
+        <Link rel="shortcut icon" href="favicon.ico"/>
+    </Head>
+
     <div class="h-full" :class="{ dark: darkMode }">
         <div class="h-full bg-white dark:bg-dim-900">
-            <!-- App -->
-            <div v-if="user" class="h-full">
+            <!-- Splash Screen -->
+            <SplashScreen v-show="(user && isFirstLoading) || authLoading" />
+
+            
+            <!-- Auth -->
+            <AuthPage v-if="!user && !authLoading"/>
+
+            <!-- App Page -->
+            <div v-if="user && !isFirstLoading && !authLoading" class="h-full">
+
+
                 <!-- Main Screen -->
                 <div
-                    v-show="!isFirstLoading"
                     class="mx-auto grid h-full grid-cols-12 sm:px-6 lg:max-w-7xl lg:gap-5 lg:px-8"
                 >
+                    <!-- Left sidebar -->
                     <SidebarLeft />
 
                     <!-- Main Content -->
@@ -42,13 +52,7 @@ const user = useAuthUser()
                         <SidebarRight />
                     </div>
                 </div>
-
-                <!-- Splash Screen -->
-                <SplashScreen v-show="isFirstLoading" />
             </div>
-
-            <!-- Auth -->
-            <AuthPage v-else/>
         </div>
     </div>
 </template>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { ErrorAPIData } from 'utils/APIErrors';
 import { LoginSchema } from '~/validation/authSchemas'
 
 const data = reactive({
@@ -11,6 +12,8 @@ const loading = ref(false)
 const {errors, validated, setErrors} = useValidator()
 const { login } = useAuth()
 
+import type { FetchError } from 'ofetch'
+
 const onSubmit = async () => {
     const body = await validated(LoginSchema, data)
 
@@ -18,10 +21,10 @@ const onSubmit = async () => {
 
     try {
         loading.value = true
-        console.log(await login(body))
+        await login(body)
     } catch (e) {
         if(isValidationError(e))
-            setErrors((e.data as ErrorAPIData).data)
+            setErrors(((e as FetchError).data as ErrorAPIData).data)
     } finally {
         loading.value = false
     }
@@ -63,7 +66,7 @@ onMounted(() => {
             <UIErrorList :errors="unrecognizedFieldsError"/>
 
             <div>
-                <button type="submit" @click.prevent="onSubmit" :disabled="!mounted">{{ $t('form.submit') }}</button>
+                <button type="submit" @click.prevent="onSubmit" :disabled="!mounted">{{ $t('form.login') }}</button>
             </div>
         </form>
     </div>

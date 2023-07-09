@@ -37,3 +37,21 @@ export const createFailedToCreateError = (toCreate: string) =>
         statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
         statusMessage: ReasonPhrases.INTERNAL_SERVER_ERROR,
     });
+
+
+export const createNotAuthorizedError = (message: string = "NotAuthorized") =>
+    createError({
+        message,
+        statusCode: StatusCodes.UNAUTHORIZED,
+        statusMessage: ReasonPhrases.UNAUTHORIZED,
+    });
+
+export const createFailedToRetrieveError = (toRetrieve: string) =>
+    createError({
+        data: {
+            message: "failed-to-retrieve:" + toRetrieve,
+        },
+        message: "failed-to-retrieve:" + toRetrieve,
+        statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+        statusMessage: ReasonPhrases.INTERNAL_SERVER_ERROR,
+    });

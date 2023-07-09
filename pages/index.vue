@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 const loading = ref(false);
+const { useAuthUser } = useAuth()
+const user = useAuthUser()
 </script>
 
 <template>
@@ -9,35 +11,7 @@ const loading = ref(false);
             :title="$t('nav.home')"
             :loading="loading"
         >
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
-            <div>Content</div>
+            <div>User: {{ user }}</div>
         </MainSection>
     </div>
 </template>

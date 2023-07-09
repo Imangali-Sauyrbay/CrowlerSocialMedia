@@ -26,7 +26,7 @@ const onImageLoaded = () => {
 
 const stopWatchPlaySound = watch([showImage, sharinganSFXLoaded], ([imageLoaded, soundLoaded]) => {
     if(imageLoaded && soundLoaded && process.client && isScreenWideEnough) {
-        sharinganAudio.volume = .1;
+        sharinganAudio.volume = .05;
 
         setTimeout(() => {
             sharinganAudio.play().catch(() => {});

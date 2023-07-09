@@ -38,6 +38,7 @@
         "jsonwebtoken": "^9.0.0",
         "magic-regexp": "^0.7.0",
         "normalize.css": "^8.0.1",
+        "url-pattern": "^1.0.3",
         "yup": "^1.2.0"
     }
 }

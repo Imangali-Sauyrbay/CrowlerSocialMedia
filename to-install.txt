@@ -1,1 +1,0 @@
--D @nuxtjs/eslint-config-typescript @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier prettier prettier-plugin-tailwindcss
