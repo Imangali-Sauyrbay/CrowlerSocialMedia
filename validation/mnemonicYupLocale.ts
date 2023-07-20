@@ -1,4 +1,5 @@
 /* eslint-disable */
+import * as Yup from "yup";
 import { type LocaleObject, printValue } from "yup";
 
 export const locale: LocaleObject = {
@@ -75,3 +76,5 @@ export const locale: LocaleObject = {
         },
     },
 };
+
+Yup.setLocale(locale);

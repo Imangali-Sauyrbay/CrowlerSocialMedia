@@ -23,6 +23,7 @@ model User {
   updated_at DateTime @updatedAt
 
   refresh_token RefreshToken[]
+  crowls        Crowl[]
 }
 
 model RefreshToken {
@@ -33,5 +34,37 @@ model RefreshToken {
   updated_at DateTime @updatedAt
 
   user_id Int
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model Crowl {
+  id   Int    @id @default(autoincrement())
+  text String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  author_id Int
+  author    User @relation(fields: [author_id], references: [id])
+
+  reply_to_id Int?
+
+  replied_to Crowl?  @relation(name: "replies", fields: [reply_to_id], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  replies    Crowl[] @relation(name: "replies")
+
+  medias MediaFile[]
+}
+
+model MediaFile {
+  id       Int     @id @default(autoincrement())
+  url      String?
+  filepath String?
+  name     String
+  size     Int
+  mimetype String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  crowls Crowl[]
 }

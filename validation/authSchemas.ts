@@ -1,7 +1,5 @@
 import * as Yup from "yup";
-import { locale } from "./mnemonicYupLocale";
-
-Yup.setLocale(locale);
+import "./mnemonicYupLocale";
 
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -20,8 +18,9 @@ export const RegistrationSchema = Yup.object({
         .required(),
     password_confirm: Yup.string()
         .oneOf([Yup.ref("password")], "confirm-not-match")
-        .optional(),
+        .required(),
 });
+
 export type RegisterRequest = Yup.InferType<typeof RegistrationSchema>;
 
 export const LoginSchema = RegistrationSchema.pick(["username", "password"]);

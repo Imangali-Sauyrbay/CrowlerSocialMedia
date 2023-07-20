@@ -2,9 +2,9 @@ import { prisma } from "./index";
 import { type RegisterRequest } from "~/validation/authSchemas";
 import { hashPassword } from "~/server/utils/Hash";
 
-export const createUser = async (data: RegisterRequest) => {
-    delete data.password_confirm;
-
+export const createUser = async (requestData: RegisterRequest) => {
+    const {password_confirm, ...data} = requestData
+    
     data.password = await hashPassword(data.password);
 
     return await prisma.user.create({

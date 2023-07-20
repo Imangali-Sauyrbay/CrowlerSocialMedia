@@ -2,7 +2,7 @@ import { type LoginRequest } from '~/validation/authSchemas'
 import { type User } from "@prisma/client"
 import { FetchError } from 'ofetch'
 import { StatusCodes } from "http-status-codes";
-
+import type {UnwrapRef} from 'vue-demi'
 
 export type ExcludedUser = Omit<User, 'password' | 'created_at' | 'updated_at'>
 export type AuthResponce = {
@@ -10,14 +10,17 @@ export type AuthResponce = {
     user: ExcludedUser
 }
 
+const isUnauthorized = (e: unknown) => e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED
+
 export const useAuth = () => {
-    const useAuthToken = () => useState<string>('auth:token')
-    const useAuthUser = () => useState<ExcludedUser>('auth:user')
+    const useAuthToken = () => useState<string | null>('auth:token')
+    const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
+
     const useAuthInitializing = () => useState<boolean>('auth:initializing', () => true)
     const useRefreshTimeoutID = () => useState<number>('auth:refresh-timeout')
 
-    const setToken = (value: string) => useAuthToken().value = value
-    const setUser = (value: ExcludedUser) => useAuthUser().value = value
+    const setUser = (value: UnwrapRef<ReturnType<typeof useAuthUser>>) => useAuthUser().value = value
+    const setToken = (value: string | null) => useAuthToken().value = value
     const setAuthInitializing = (value: boolean) => useAuthInitializing().value = value
 
     const setAuthResponce = (data: AuthResponce) => {
@@ -41,16 +44,24 @@ export const useAuth = () => {
 
     const setTimerToRefresh = (timestamp: number) => {
         const timeoutID = useRefreshTimeoutID()
-        const halfMinute = 30 * 1000
-        const time = timestamp - Date.now() - halfMinute
+        const msHalfMinute = 30 * 1000
+        const msToWait = timestamp - Date.now()
+        const time = msToWait - msHalfMinute
 
         if(process.client) {
             window.clearTimeout(timeoutID.value)
             timeoutID.value = window.setTimeout(async () => {
-                const responce = await refreshToken()
+                try {
+                    const responce = await refreshToken()
     
-                if(typeof responce.exp === 'number')
-                    setTimerToRefresh(responce.exp)
+                    if(typeof responce.exp === 'number')
+                        setTimerToRefresh(responce.exp)
+                } catch (e) {
+                    if(isUnauthorized(e)) {
+                        setUser(null)
+                        setToken(null)
+                    }
+                }
             }, time)
         }
     }
@@ -63,7 +74,7 @@ export const useAuth = () => {
             if(typeof responce.exp === 'number')
                 setTimerToRefresh(responce.exp)
         } catch (e) {
-            if(e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED) {
+            if(isUnauthorized(e)) {
                 return
             }
 
@@ -82,21 +93,4 @@ export const useAuth = () => {
         initAuth,
         useAuthInitializing
     }
-}
-
-function translateToSalty(text: string) {
-    let result = ''
-    const vowels = 'аяуюоеёэиы'
-
-    for(let i = 0; i < text.length; i++) {
-        const char = text.charAt(i)
-
-        result += char
-
-        if(vowels.includes(char)) {
-            result += 'c' + char
-        }
-    }
-
-    return result
 }

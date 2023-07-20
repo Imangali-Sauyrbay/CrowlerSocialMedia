@@ -4,18 +4,19 @@ import { createNotAuthorizedError, createFailedToRetrieveError } from '~/server/
 import { findUserByID } from '~/server/database/users'
 
 export default eventHandler(async (event) => {
-    const authUrls = [
-        '/api/auth/user'
+    const authEndpoints = [
+        '/api/auth/user',
+        '/api/crowls'
     ]
 
     const currentUrl = getRequestURL(event).pathname
-    const shouldIntercept = authUrls.some(pattern => new UrlPattern(pattern).match(currentUrl))
+    const shouldIntercept = authEndpoints.some(pattern => new UrlPattern(pattern).match(currentUrl))
 
-    if(!shouldIntercept) return
+    if(! shouldIntercept) return
 
     const authHeader = getHeader(event, 'Authorization')
 
-    if (!authHeader) return createNotAuthorizedError('\'Authorization\' header not found')
+    if (! authHeader) return createNotAuthorizedError('\'Authorization\' header not found')
 
     const token = authHeader.split(' ')[1]
     

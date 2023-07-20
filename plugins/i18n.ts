@@ -2,11 +2,13 @@ import { createI18n } from "vue-i18n";
 import { type ValueOf } from "~/utils/TS";
 import enUS from "~/locales/en-US.json";
 
-export const SUPPORTED_LOCALES = ["en-US", "ru-RU"] as const;
-export type Locale = ValueOf<typeof SUPPORTED_LOCALES>;
-export const DEFAULT_LOCALE: Locale = "en-US";
 const STORAGE_KEY = "language";
 const COOKIE_KEY = STORAGE_KEY;
+
+export const SUPPORTED_LOCALES = ["en-US", "ru-RU"] as const;
+export type Locale = ValueOf<typeof SUPPORTED_LOCALES>;
+
+export const DEFAULT_LOCALE: Locale = "en-US";
 
 export const i18n = createI18n({
     legacy: false,
@@ -59,6 +61,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
     if (process.client) {
         const { registerAsyncFirstLoad } = useFirstLoaderBus();
+
         if (getLocaleFromStorage() !== DEFAULT_LOCALE)
             registerAsyncFirstLoad(asyncSetLocale(getLocaleFromStorage()));
         else saveLocale(DEFAULT_LOCALE);
