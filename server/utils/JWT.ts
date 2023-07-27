@@ -11,18 +11,22 @@ export const generateAccessToken = (user: User): string => {
     const config = useRuntimeConfig();
 
     /* eslint-disable-next-line */
-    return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
-        expiresIn: "10m",
-    });
+    return jwt.sign(
+        { userId: user.id },
+        config.jwtAccessSecret,
+        { expiresIn: "10m" }
+    );
 };
 
 export const generateRefreshToken = (user: User): string => {
     const config = useRuntimeConfig();
 
     /* eslint-disable-next-line */
-    return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
-        expiresIn: "4h",
-    });
+    return jwt.sign(
+        { userId: user.id },
+        config.jwtRefreshSecret,
+        { expiresIn: "4h" }
+    );
 };
 
 export const generateTokens = (user: User): Tokens => ({

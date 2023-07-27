@@ -23,7 +23,7 @@ export default eventHandler(async (event) => {
         await deleteRefreshTokenByID(refreshToken.id)
         return createNotAuthorizedError("Refresh token expired")
     }
-    
+
     const user = refreshToken.user
     const accessToken = generateAccessToken(user)
 

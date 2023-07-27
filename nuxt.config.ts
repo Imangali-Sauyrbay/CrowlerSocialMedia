@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     devtools: { enabled: false },
 
     modules: [
+        "nuxt-scheduler",
         "@nuxtjs/tailwindcss",
         "@vue-macros/nuxt",
         "@nuxtjs/fontaine",

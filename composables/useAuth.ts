@@ -9,88 +9,90 @@ export type AuthResponce = {
     access_token: string,
     user: ExcludedUser
 }
+export type RefreshResponce = AuthResponce & {exp: number}
 
-const isUnauthorized = (e: unknown) => e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED
+const isUnauthorizedError = (e: unknown) => e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED
 
-export const useAuth = () => {
-    const useAuthToken = () => useState<string | null>('auth:token')
-    const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
+const useAuthToken = () => useState<string | null>('auth:token')
+const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
 
-    const useAuthInitializing = () => useState<boolean>('auth:initializing', () => true)
-    const useRefreshTimeoutID = () => useState<number>('auth:refresh-timeout')
+const useAuthInitializing = () => useState<boolean>('auth:initializing', () => true)
+const useRefreshTimeoutID = () => useState<number>('auth:refresh-timeout')
 
-    const setUser = (value: UnwrapRef<ReturnType<typeof useAuthUser>>) => useAuthUser().value = value
-    const setToken = (value: string | null) => useAuthToken().value = value
-    const setAuthInitializing = (value: boolean) => useAuthInitializing().value = value
+const setUser = (value: UnwrapRef<ReturnType<typeof useAuthUser>>) => useAuthUser().value = value
+const setToken = (value: string | null) => useAuthToken().value = value
+const setAuthInitializing = (value: boolean) => useAuthInitializing().value = value
 
-    const setAuthResponce = (data: AuthResponce) => {
-        setToken(data.access_token)
-        setUser(data.user)
-        return data
-    }
+const setAuthResponce = <T extends AuthResponce>(data: T): T => {
+    setToken(data.access_token)
+    setUser(data.user)
+    return data
+}
 
-    const login = async (body: LoginRequest) => {
-        return setAuthResponce(await $fetch<AuthResponce>('/api/auth/login', {
+const login = async (body: LoginRequest) => {
+    return setAuthResponce(
+        await $fetch<AuthResponce>('/api/auth/login', {
             method: 'POST',
             body
-        }))
-    }
+        })
+    )
+}
 
-    const refreshToken = async () => {
-        const res = await $fetch<AuthResponce & {exp: number}>('/api/auth/refresh')
-        setAuthResponce(res)
-        return res
-    }
+const refreshToken = async () => {
+    return setAuthResponce(
+        await $fetch<RefreshResponce>('/api/auth/refresh')
+    )
+}
 
-    const setTimerToRefresh = (timestamp: number) => {
-        const timeoutID = useRefreshTimeoutID()
-        const msHalfMinute = 30 * 1000
-        const msToWait = timestamp - Date.now()
-        const time = msToWait - msHalfMinute
+const setTimerToRefreshToken = (timestamp: number) => {
+    const msHalfMinute = 30 * 1000
 
-        if(process.client) {
-            window.clearTimeout(timeoutID.value)
-            timeoutID.value = window.setTimeout(async () => {
-                try {
-                    const responce = await refreshToken()
+    const timeoutID = useRefreshTimeoutID()
     
-                    if(typeof responce.exp === 'number')
-                        setTimerToRefresh(responce.exp)
-                } catch (e) {
-                    if(isUnauthorized(e)) {
-                        setUser(null)
-                        setToken(null)
-                    }
+    const msFullTimeToWait = timestamp - Date.now()
+
+    const timeToWait = msFullTimeToWait - msHalfMinute
+
+    if(process.client) {
+        window.clearTimeout(timeoutID.value)
+        timeoutID.value = window.setTimeout(async () => {
+            try {
+                const responce = await refreshToken()
+
+                if(typeof responce.exp === 'number')
+                    setTimerToRefreshToken(responce.exp)
+            } catch (e) {
+                if(isUnauthorizedError(e)) {
+                    setUser(null)
+                    setToken(null)
                 }
-            }, time)
-        }
-    }
-
-    const initAuth = async () => {
-        try {
-            setAuthInitializing(true)
-            const responce = await refreshToken()
-
-            if(typeof responce.exp === 'number')
-                setTimerToRefresh(responce.exp)
-        } catch (e) {
-            if(isUnauthorized(e)) {
-                return
             }
-
-            console.error(e)
-        } finally {
-            setAuthInitializing(false)
-        }
-    }
-
-    return {
-        login,
-        setToken,
-        setUser,
-        useAuthToken,
-        useAuthUser,
-        initAuth,
-        useAuthInitializing
+        }, timeToWait)
     }
 }
+
+const initAuth = async () => {
+    try {
+        setAuthInitializing(true)
+        const responce = await refreshToken()
+
+        if(typeof responce.exp === 'number')
+            setTimerToRefreshToken(responce.exp)
+    } catch (e) {
+        if(isUnauthorizedError(e)) {
+            return;
+        }
+    } finally {
+        setAuthInitializing(false)
+    }
+}
+
+export const useAuth = () => ({
+    login,
+    setToken,
+    setUser,
+    useAuthToken,
+    useAuthUser,
+    initAuth,
+    useAuthInitializing
+})
