@@ -7,7 +7,7 @@ let sharinganAudio: HTMLAudioElement;
 let isScreenWideEnough = false;
 
 if (process.client)
-    isScreenWideEnough = document.documentElement.clientWidth > 720
+    isScreenWideEnough = document.documentElement.clientWidth >= 720
 
 if (process.client && isScreenWideEnough) {
     sharinganAudio = new Audio('/assets/sounds/sharingan-sfx.mp3');
@@ -29,7 +29,7 @@ const stopWatchPlaySound = watch([showImage, sharinganSFXLoaded], ([imageLoaded,
         sharinganAudio.volume = .05;
 
         setTimeout(() => {
-            sharinganAudio.play().catch(() => { });
+            sharinganAudio.play().catch(() => {/* Swallow any error */});
             sharinganActivated.value = true;
         }, 200);
 

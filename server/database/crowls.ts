@@ -14,7 +14,7 @@ export type File = {
     originalFilename: string,
 }
 
-export type Files = {[key: string]: File[]}
+export type Files = Record<string, File[]>
 
 export type NewCrowlData = [Crowl, Files]
 

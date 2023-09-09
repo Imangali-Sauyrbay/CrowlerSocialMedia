@@ -38,6 +38,7 @@ const id = `input_${Date.now()}_${Math.random().toString(36).substring(2, 8).toU
                 class="block px-4 w-full rounded-full shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 :class="[errorsFiltered.length ? 'border-red-600' : 'border-gray-400']"
                 v-model="modelValue"
+                v-bind="$attrs"
             />
 
             <UIErrorList :errors="errorsFiltered"/>
