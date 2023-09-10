@@ -15,7 +15,6 @@ export default eventHandler(async (event) => {
     if(! refreshToken) {
         return createNotAuthorizedError("Invalid refresh token")
     }
-
     
     const payload = decodeRefreshToken(refreshToken.token)
 

@@ -7,7 +7,7 @@ export const CrowlDataScheme = Yup.object({
 });
 
 export const CrowlFilesScheme = Yup.object({
-    medias: Yup.mixed<File | File[]>().test('media', 'invalid', (value) => {
+    media: Yup.mixed<File | File[]>().test('media', 'invalid', (value) => {
         if(! value) return true
 
         return Array.isArray(value)

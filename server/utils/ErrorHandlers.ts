@@ -5,7 +5,6 @@ import { getValidationMessages, isValidationError } from "../../utils/validation
 
 export const validationErrorHandler = (e: unknown): H3Error | null => {
     if (!isValidationError(e)) return null;
-    console.log(getValidationMessages(e))
     return createValidationError(getValidationMessages(e));
 };
 

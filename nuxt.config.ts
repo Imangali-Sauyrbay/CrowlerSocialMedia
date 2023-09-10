@@ -30,12 +30,11 @@ export default defineNuxtConfig({
         ],
     },
 
-    alias: {
-        "@server": "@/server",
-    },
-
     runtimeConfig: {
         jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET ?? '',
         jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET ?? '',
+        cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME ?? '',
+        cloudinaryAPIKey: process.env.CLOUDINARY_API_KEY ?? '',
+        cloudinaryAPISecret: process.env.CLOUDINARY_API_SECRET ?? ''
     },
 });

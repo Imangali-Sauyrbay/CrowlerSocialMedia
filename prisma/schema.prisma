@@ -71,7 +71,7 @@ model MediaFile {
   updated_at DateTime @updatedAt
 
   user_id Int? @unique
-  user User? @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  user User? @relation(fields: [user_id], references: [id], onDelete: NoAction)
 
   crowl_id Int?
   crowl Crowl? @relation(fields: [crowl_id], references: [id], onDelete: SetNull)

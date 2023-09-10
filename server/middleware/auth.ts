@@ -16,21 +16,30 @@ export default eventHandler(async (event) => {
 
     const authHeader = getHeader(event, 'Authorization')
 
-    if (! authHeader) return createNotAuthorizedError('\'Authorization\' header not found')
+    if (! authHeader) {
+        event.context.error = createNotAuthorizedError('\'Authorization\' header not found')
+        return
+    }
 
     const token = authHeader.split(' ')[1]
     
-    if(!token) return createNotAuthorizedError('\'Authorization\' token not found')
+    if(!token) {
+        event.context.error = createNotAuthorizedError('\'Authorization\' token not found')
+        return
+    }
 
     const payload = decodeAccessToken(token)
 
-    if(!payload || !payload.userId) return createNotAuthorizedError('Token is invalid')
+    if(!payload || !payload.userId) {
+        event.context.error = createNotAuthorizedError('Token is invalid')
+        return
+    }
 
     try {
         const user = await findUserByID(payload.userId)
         event.context.user = user
     } catch (e) {
-        return createFailedToRetrieveError('user')
+        event.context.error = createFailedToRetrieveError('user')
     }
 
 })
