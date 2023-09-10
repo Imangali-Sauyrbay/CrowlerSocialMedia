@@ -1,29 +1,12 @@
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
-import { ValidationError } from "yup";
-import { createValidationError } from "~/server/utils/ErrorFactories";
 import { H3Error } from 'h3'
+import { createValidationError } from "~/server/utils/ErrorFactories";
+import { getValidationMessages, isValidationError } from "../../utils/validationUtils";
 
 export const validationErrorHandler = (e: unknown): H3Error | null => {
-    if (!(e instanceof ValidationError)) return null;
-
-    const errors = e as ValidationError;
-    const validationErrors: Record<string, string> = {};
-    
-    if(errors.inner.length === 0 && errors.path) {
-        validationErrors[errors.path] = errors.message;
-        return createValidationError(validationErrors);
-    }
-    
-    errors.inner.forEach((error) => {
-        const { path, message } = error;
-
-        if (message.startsWith("no-unknown-keys:") && !path)
-            validationErrors["unknown-fields"] = message;
-
-        if (path) validationErrors[path] = message;
-    });
-
-    return createValidationError(validationErrors);
+    if (!isValidationError(e)) return null;
+    console.log(getValidationMessages(e))
+    return createValidationError(getValidationMessages(e));
 };
 
 export const defaultErrorHandler = (e: unknown) => {

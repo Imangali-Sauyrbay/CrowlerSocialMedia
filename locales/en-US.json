@@ -22,17 +22,42 @@
         }
     },
 
+    "notifications": {
+        "success": "Successfull",
+
+        "messages": {
+            "registered": "User \"{username}\" successfully registered!"
+        }
+    },
+
     "form": {
         "submit": "Submit",
         "login": "Login",
+        "optional": "Optional",
+        "register": "Register",
 
         "username": {
             "label": "Username",
             "placeholder": "{'@'}username"
         },
 
+        "email": {
+            "label": "Email",
+            "placeholder": "mail{'@'}mail.com"
+        },
+
+        "name": {
+            "label": "Name",
+            "placeholder": "Name"
+        },
+
         "password": {
             "label": "Password",
+            "placeholder": "********"
+        },
+
+        "password_confirm": {
+            "label": "Confirm the Password",
             "placeholder": "********"
         }
     },
@@ -45,13 +70,17 @@
             "must-contain-uppercase": "The field {field} must contain at least {count} uppercase characters.",
             "must-contain-number": "The field {field} must contain at least {count} numeric characters.",
             "not-exists": "The field {field} has an unrecognized value.",
-            "not-match": "The field {field} does not match with record from database."
+            "not-match": "The field {field} does not match with record from database.",
+            "email": "The given email is incorrect. (e.g mail{'@'}mail.com)"
         },
 
         "fields": {
-            "default": "this field",
+            "default": "",
             "username": "\"Username\"",
-            "password": "\"Password\""
+            "password": "\"Password\"",
+            "email": "\"Email\"",
+            "name": "\"Name\"",
+            "password_confirm": "\"Password Confirmation\""
         }
     }
 }

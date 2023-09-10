@@ -24,8 +24,7 @@ export const useValidationErrorsLocalizer = (errors: Map<string, string>, should
     return result;
 }
 
-import {type ISchema} from 'yup'
-import { validationErrorHandler } from '~/server/utils/ErrorHandlers';
+import {type Schema} from 'yup'
 
 interface ValidatorOptions {
     shouldLocalize?: boolean
@@ -36,37 +35,58 @@ const defaultOptions: ValidatorOptions = {
 }
 
 export const useValidator = (options: ValidatorOptions = {}) => {
-    const errors = ref<([string, string])[]>()
-
-    options = Object.assign(defaultOptions, options)
-
-    const validated = async <T extends ISchema<any>>(schema: T, data: object): Promise< ReturnType<T['validate']> | null> => {
-        errors.value = [];
-
-        try {
-            return await schema.validate({...data}, { abortEarly: false })
-        } catch(e) {
-            const validationError = validationErrorHandler(e)
-    
-            if(validationError) {
-                errors.value = useValidationErrorsLocalizer(validationError, options.shouldLocalize)
-            }
-    
-            return null
-        }
-    }
+    const validationErrors = ref<([string, string])[]>()
+    const unrecognizedFieldsErrors = ref<string[]>()
 
     const setErrors = (e: Record<string, string> | Map<string, string>) => {
         if(!(e instanceof Map)) {
             e = new Map(Object.entries(e));
         }
 
-        errors.value = useValidationErrorsLocalizer(e, options.shouldLocalize)
+        validationErrors.value = useValidationErrorsLocalizer(e, options.shouldLocalize)
+    }
+
+    const setUnrecognizedFields = (data: object) => {
+        const keys = Object.keys({...data})
+        const result: string[] = []
+        
+        validationErrors.value?.forEach(([key, value]) => {
+            if(!keys.includes(key))
+                result.push(value)
+        })
+        
+        unrecognizedFieldsErrors.value = result
+    }
+
+    const setAllErrors = (e: Record<string, string> | Map<string, string>, data: object) => {
+        setErrors(e)
+        setUnrecognizedFields(data)
+    }
+
+    options = Object.assign(defaultOptions, options)
+
+    const validated = <T extends Schema>(schema: T, data: object): T['__outputType'] | null => {
+        validationErrors.value = [];
+
+        try {
+            return schema.validateSync({...data}, { abortEarly: false })
+        } catch(e) {
+            if(!isValidationError(e)) return null
+            const validationError = getValidationMessages(e)
+            
+            setErrors(validationError)
+            setUnrecognizedFields(data)
+        }
+
+        return null
     }
 
     return {
-        errors,
+        validationErrors,
+        unrecognizedFieldsErrors,
         setErrors,
-        validated
+        validated,
+        setUnrecognizedFields,
+        setAllErrors
     }
 }

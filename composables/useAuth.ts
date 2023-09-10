@@ -1,15 +1,23 @@
-import { type LoginRequest } from '~/validation/authSchemas'
+import { RegisterRequest, type LoginRequest } from '~/validation/authSchemas'
 import { type User } from "@prisma/client"
 import { FetchError } from 'ofetch'
 import { StatusCodes } from "http-status-codes";
 import type {UnwrapRef} from 'vue-demi'
 
 export type ExcludedUser = Omit<User, 'password' | 'created_at' | 'updated_at'>
-export type AuthResponce = {
-    access_token: string,
+export interface AuthResponce {
     user: ExcludedUser
 }
-export type RefreshResponce = AuthResponce & {exp: number}
+
+export interface LoginResponce extends AuthResponce {
+    access_token: string
+}
+
+export interface RegisterResponce extends AuthResponce {
+    success: boolean
+}
+
+export interface RefreshResponce extends LoginResponce {exp: number}
 
 const isUnauthorizedError = (e: unknown) => e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED
 
@@ -23,7 +31,7 @@ const setUser = (value: UnwrapRef<ReturnType<typeof useAuthUser>>) => useAuthUse
 const setToken = (value: string | null) => useAuthToken().value = value
 const setAuthInitializing = (value: boolean) => useAuthInitializing().value = value
 
-const setAuthResponce = <T extends AuthResponce>(data: T): T => {
+const setAuthResponce = <T extends LoginResponce>(data: T): T => {
     setToken(data.access_token)
     setUser(data.user)
     return data
@@ -31,11 +39,18 @@ const setAuthResponce = <T extends AuthResponce>(data: T): T => {
 
 const login = async (body: LoginRequest) => {
     return setAuthResponce(
-        await $fetch<AuthResponce>('/api/auth/login', {
+        await $fetch<LoginResponce>('/api/auth/login', {
             method: 'POST',
             body
         })
     )
+}
+
+const register = (body: RegisterRequest) => {
+    return $fetch<RegisterResponce>('/api/auth/register', {
+        method: 'POST',
+        body
+    })
 }
 
 const refreshToken = async () => {
@@ -89,6 +104,7 @@ const initAuth = async () => {
 
 export const useAuth = () => ({
     login,
+    register,
     setToken,
     setUser,
     useAuthToken,

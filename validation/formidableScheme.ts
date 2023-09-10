@@ -1,5 +1,4 @@
-import * as Yup from "yup";
-import "./mnemonicYupLocale";
+import Yup from './mnemonicYupLocale'
 import { FileJSON } from "formidable"
 
 const maxSize = 100 * 1024 * 1024 // 100Mb

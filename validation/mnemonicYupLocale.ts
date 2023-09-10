@@ -78,3 +78,5 @@ export const locale: LocaleObject = {
 };
 
 Yup.setLocale(locale);
+
+export default Yup;

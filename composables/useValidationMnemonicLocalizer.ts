@@ -54,6 +54,9 @@ const localizeErrorMessage = (message: string, localizedField?: string): string 
     if(message.startsWith('must-contain'))
         return containRuleLocalizer(message, localizedField)
 
+    if(message == 'email')
+        return i18n.global.t('validation.rules.email')
+
     return i18n.global.t('validation.rules.' + message, { field: localizedField })
 }
 

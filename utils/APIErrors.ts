@@ -9,7 +9,7 @@ export interface ErrorAPIData {
     data:          Record<string, string>;
 }
 
-export const isValidationError = (e: unknown) => {
+export const isValidationErrorResponce = (e: unknown): e is FetchError<ErrorAPIData> => {
     return e instanceof FetchError &&
     (e.data as ErrorAPIData).message === 'ValidationError';
 }

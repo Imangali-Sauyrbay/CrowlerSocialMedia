@@ -30,7 +30,7 @@ export const useDarkMode = () => {
 
     if (process.server) {
         const darkMode = useCookie(COOKIE_NAME);
-        state.value = !!JSON.parse(darkMode.value || "false");
+        state.value = !!JSON.parse(darkMode.value || "true");
     }
 
     return state;

@@ -1,5 +1,4 @@
-import * as Yup from "yup";
-import "./mnemonicYupLocale";
+import Yup from './mnemonicYupLocale'
 import { File } from "formidable"
 import { FormidableFileScheme } from './formidableScheme'
 

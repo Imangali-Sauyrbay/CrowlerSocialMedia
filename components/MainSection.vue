@@ -14,7 +14,7 @@ onMounted(() => {
 
 <template>
     <div
-        class="default-border-color h-full overflow-y-auto overflow-x-hidden border-x scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-thumb-rounded-full dark:scrollbar-thumb-gray-300"
+        class="default-border-color h-full overflow-y-auto overflow-x-hidden border-x default-scrollbar"
     >
         <div
             ref="header"
