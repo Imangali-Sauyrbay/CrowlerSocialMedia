@@ -11,29 +11,14 @@ export const createCrowl = (data: Crowl) => {
     })
 }
 
-export const getCrowlById = (id: number, page: number=1, perPage:number=10) => {
-    const skip = (perPage * page) - perPage
-    const take = perPage
-
+export const getCrowlById = (id: number) => {
     return prisma.crowl.findFirst({
         where: {
             id,
         },
 
         include: {
-            author: true,
             medias: true,
-
-            replies: {
-                include: {
-                    author: true,
-                    medias: true
-                },
-
-                skip,
-                take
-            },
-            
             replied_to: {
                 include: {
                     author: true,

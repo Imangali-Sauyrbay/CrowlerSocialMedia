@@ -89,6 +89,12 @@ import {
                     </template>
                 </SidebarLeftTab>
             </nav>
+
+            <div class="flex-grow w-full mt-4 font-bold">
+                <UIButton :liquid="true" size="lg">
+                    Crowl
+                </UIButton>
+            </div>
         </div>
     </div>
 </template>

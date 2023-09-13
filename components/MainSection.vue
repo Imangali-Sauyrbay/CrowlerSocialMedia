@@ -18,7 +18,7 @@ onMounted(() => {
     >
         <div
             ref="header"
-            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30"
+            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50"
         >
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}
@@ -28,11 +28,9 @@ onMounted(() => {
             v-if="loading"
             class="offset-height flex items-center justify-center"
         >
-            <UISpinner />
+            <IconSpinner />
         </div>
-        <div v-else>
-            <slot></slot>
-        </div>
+        <slot v-else></slot>
     </div>
 </template>
 

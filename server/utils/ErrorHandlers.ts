@@ -12,7 +12,7 @@ export const defaultErrorHandler = (e: unknown) => {
     const validationError = validationErrorHandler(e);
     
     if (validationError) return validationError;
-
+    console.log(e)
     return createError({
         status: StatusCodes.INTERNAL_SERVER_ERROR,
         statusMessage: ReasonPhrases.INTERNAL_SERVER_ERROR,

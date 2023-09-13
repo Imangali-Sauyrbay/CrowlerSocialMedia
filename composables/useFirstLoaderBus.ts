@@ -1,28 +1,30 @@
 const promises: Promise<any>[] = [];
 const isFirstLoading = ref(true);
-const MIN_TIME_TO_SHOW = 1000;
+const MIN_TIME_TO_SHOW = 700;
 
-let id = 0;
-let timestamp = Date.now();
+let id = ref(0);
+let startTime = ref(Date.now());
 let timeout: number;
 
 const setPromiseAll = () => {
     // It will invalidate all the past calls and sets new promise
-    const currentID = id++;
+    const currentID = id.value++;
 
-    timestamp = Date.now();
+    startTime.value = Date.now();
     clearTimeout(timeout);
 
-    Promise.all(promises).then(() => {
-        if (currentID === id - 1) {
-            const now = Date.now();
-            if (now - timestamp < MIN_TIME_TO_SHOW)
-                timeout = window.setTimeout(
-                    () => (isFirstLoading.value = false),
-                    MIN_TIME_TO_SHOW - (now - timestamp)
-                );
-            else isFirstLoading.value = false;
-        }
+    Promise.allSettled(promises).then(() => {
+        if (currentID !== id.value - 1) return
+        
+        const now = Date.now();
+
+        if (now - startTime.value > MIN_TIME_TO_SHOW)
+            return isFirstLoading.value = false;
+
+        timeout = window.setTimeout(
+            () => (isFirstLoading.value = false),
+            MIN_TIME_TO_SHOW - (now - startTime.value)
+        );        
     });
 };
 

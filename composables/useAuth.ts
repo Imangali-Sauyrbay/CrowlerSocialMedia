@@ -21,8 +21,9 @@ export interface RefreshResponce extends LoginResponce {exp: number}
 
 const isUnauthorizedError = (e: unknown) => e instanceof FetchError && e.status === StatusCodes.UNAUTHORIZED
 
-const useAuthToken = () => useState<string | null>('auth:token')
-const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
+export const useAuthToken = () => useState<string | null>('auth:token')
+export const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
+export const useDefaultLogo = () => useState<string>('default:profile', () => '/assets/images/default-logo.png')
 
 const useAuthInitializing = () => useState<boolean>('auth:initializing', () => true)
 const useRefreshTimeoutID = () => useState<number>('auth:refresh-timeout')

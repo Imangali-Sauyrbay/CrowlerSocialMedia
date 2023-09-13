@@ -14,12 +14,20 @@ export default eventHandler(async (event) => {
         
         const formData = formidable({})
         const data = await formData.parse(event.node.req)
-
-        // return {data}
+        
         const [fields, files] = [
             await CrowlDataScheme.validate(data[0], { abortEarly: false }),
             await CrowlFilesScheme.validate(data[1], { abortEarly: false })
         ]
+
+        if(!fields?.text && (files.media?.length || 0) <= 0)
+            return createValidationError({
+                text: 'required_if_not_media',
+                media: 'optional'
+            })
+        
+        if(!fields.text)
+            fields.text = []
 
         const crowlData: Crowl = {
             text: fields.text.join(' '),
@@ -30,7 +38,7 @@ export default eventHandler(async (event) => {
 
         if(files.media) {
             if(! Array.isArray(files.media)) files.media = [ files.media ]
-
+            
             const mediaPromises = files.media.map(async (media) => {
 
                 const uploadResponce = await uploadToCloudinary(media.filepath)
@@ -49,11 +57,9 @@ export default eventHandler(async (event) => {
             await Promise.allSettled(mediaPromises)
         }
 
-        const crowlWithAll = await getCrowlById(crowl.id)
-        if(! crowlWithAll) return createFailedToCreateError('Crowl')
-        return {
-            crowl: crowlExcludeTransformer(crowlWithAll)
-        }
+        const crowlWithMedia = await getCrowlById(crowl.id)
+        if(! crowlWithMedia) return createFailedToCreateError('Crowl')
+        return crowlExcludeTransformer(crowlWithMedia)
     } catch (e) {
         return defaultErrorHandler(e)
     }

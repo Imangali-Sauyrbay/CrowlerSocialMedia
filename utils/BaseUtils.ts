@@ -22,3 +22,8 @@ export const useFetchApi = <T = unknown>(url: $FetchParams[0], options: NonNulla
         }
     })
 }
+
+export const countPresence = <T>(array: T[]): Map<T, number> => 
+array.reduce((acc, item) => {
+    return acc.set(item, (acc.get(item) || 0) + 1)
+}, new Map<T, number>())

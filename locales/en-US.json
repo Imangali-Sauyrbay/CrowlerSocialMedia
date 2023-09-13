@@ -22,6 +22,12 @@
         }
     },
 
+    "crowls": {
+        "placeholder": "What's up?",
+        "max_media_info": "Choose up to {imageCount}-x images and {gifCount}-x GIF animation! | Choose up to {imageCount}-x images or {gifCount}-x GIF animation!",
+        "max_media_title": "Attention!"
+    },
+
     "notifications": {
         "success": "Successfull",
 
@@ -76,6 +82,7 @@
 
         "fields": {
             "default": "",
+            "text": "\"Text\"",
             "username": "\"Username\"",
             "password": "\"Password\"",
             "email": "\"Email\"",

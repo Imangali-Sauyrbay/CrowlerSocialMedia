@@ -1,9 +1,10 @@
+import { MAX_SIZE } from '~/constants/FILES'
 import Yup from './mnemonicYupLocale'
 import { FileJSON } from "formidable"
 
-const maxSize = 100 * 1024 * 1024 // 100Mb
+
 export const FormidableFileScheme = Yup.object<FileJSON>({
-    size: Yup.number().integer().max(maxSize).required(),
+    size: Yup.number().integer().max(MAX_SIZE).required(),
     filepath: Yup.string().required(),
     newFilename: Yup.string().required(),
     mimetype: Yup.string().required(),

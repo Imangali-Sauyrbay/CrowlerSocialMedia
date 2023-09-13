@@ -9,9 +9,9 @@ type FullCrowl = Crowl & {
     replied_to?: FullCrowl | null
 }
 
-type ExcludedBaseCrowl = Pick<Crowl, 'id' | 'text' | 'created_at' | 'updated_at'>
+export type ExcludedBaseCrowl = Pick<Crowl, 'id' | 'text' | 'created_at' | 'updated_at'>
 
-type ExcludedCrowl = ExcludedBaseCrowl & {
+export type ExcludedCrowl = ExcludedBaseCrowl & {
     author?: ReturnType<typeof userExcludeTransformer>,
     medias?: ReturnType<typeof mediasExcludeTransformer>
     replies?: ExcludedCrowl[]
