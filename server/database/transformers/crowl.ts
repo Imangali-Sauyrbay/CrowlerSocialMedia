@@ -6,7 +6,8 @@ type FullCrowl = Crowl & {
     author?: User,
     medias?: MediaFile[],
     replies?: FullCrowl[],
-    replied_to?: FullCrowl | null
+    replied_to?: FullCrowl | null,
+    _count?: Record<string, number>
 }
 
 export type ExcludedBaseCrowl = Pick<Crowl, 'id' | 'text' | 'created_at' | 'updated_at'>
@@ -15,7 +16,8 @@ export type ExcludedCrowl = ExcludedBaseCrowl & {
     author?: ReturnType<typeof userExcludeTransformer>,
     medias?: ReturnType<typeof mediasExcludeTransformer>
     replies?: ExcludedCrowl[]
-    replied_to?: ExcludedCrowl | null
+    replied_to?: ExcludedCrowl | null,
+    _count?: Record<string, number>
 }
 
 export const crowlExcludeTransformer = (crowl: FullCrowl): ExcludedCrowl => {
@@ -26,6 +28,7 @@ export const crowlExcludeTransformer = (crowl: FullCrowl): ExcludedCrowl => {
         replies: crowl.replies && crowl.replies.map(crowlExcludeTransformer),
         author: crowl.author && userExcludeTransformer(crowl.author),
         replied_to: crowl.replied_to && crowlExcludeTransformer(crowl.replied_to),
+        '_count': crowl._count ? crowl._count : {},
         created_at: crowl.created_at,
         updated_at: crowl.updated_at
     };

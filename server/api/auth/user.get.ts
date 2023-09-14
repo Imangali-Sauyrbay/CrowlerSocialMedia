@@ -1,9 +1,8 @@
-import { User } from "@prisma/client"
 import { userExcludeTransformer } from "~/server/database/transformers/user"
+import { getUserFromContext } from "~/server/utils/authUtils"
 
 export default eventHandler((event) => {
-    const user: User | undefined = event.context.user
-    if(! user) return event.context.error || createNotAuthorizedError()
+    const user = getUserFromContext(event.context)
 
     return {
         user: userExcludeTransformer(user)

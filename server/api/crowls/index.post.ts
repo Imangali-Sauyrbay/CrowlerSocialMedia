@@ -1,4 +1,3 @@
-import { User } from "@prisma/client"
 import formidable from "formidable"
 import { randomUUID } from "crypto"
 import { CrowlDataScheme, CrowlFilesScheme } from "~/validation/crowlSchemas"
@@ -6,11 +5,11 @@ import {type Crowl, createCrowl, getCrowlById} from '~/server/database/crowls'
 import { crowlExcludeTransformer } from "~/server/database/transformers/crowl"
 import { createMediaFile } from "~/server/database/mediaFiles"
 import { uploadToCloudinary } from "~/server/utils/cloudinary"
+import { getUserFromContext } from "~/server/utils/authUtils"
 
 export default eventHandler(async (event) => {
     try {
-        const user: User | undefined = event.context.user
-        if(! user) return event.context.error || createNotAuthorizedError()
+        const user = getUserFromContext(event.context)
         
         const formData = formidable({})
         const data = await formData.parse(event.node.req)
@@ -32,6 +31,13 @@ export default eventHandler(async (event) => {
         const crowlData: Crowl = {
             text: fields.text.join(' '),
             author_id: user.id
+        }
+
+        if(fields.reply_to) {
+            const replied_to = await getCrowlById(fields.reply_to)
+            if(!replied_to) return createFailedToRetrieveError('replied_to')
+
+            crowlData.reply_to_id = replied_to.id
         }
 
         const crowl = await createCrowl(crowlData)
@@ -57,7 +63,7 @@ export default eventHandler(async (event) => {
             await Promise.allSettled(mediaPromises)
         }
 
-        const crowlWithMedia = await getCrowlById(crowl.id)
+        const crowlWithMedia = await getCrowlById(crowl.id, {includeDefault: true})
         if(! crowlWithMedia) return createFailedToCreateError('Crowl')
         return crowlExcludeTransformer(crowlWithMedia)
     } catch (e) {

@@ -2,10 +2,16 @@ import { useScheduler } from "#scheduler"
 import chalk from 'chalk'
 
 const scheduler = useScheduler()
+
 type Scheduler = ReturnType<typeof scheduler.run>
 type SetTaskCallbackOptions = {
     addMessage: (message: string) => void
 }
+
+const capitalizeFirst = (name: string) => name
+.charAt(0)
+.toUpperCase()
+.concat(name.slice(1))
 
 export class TaskManager {
     public static logger: (...data: any[]) => void = console.log
@@ -15,11 +21,17 @@ export class TaskManager {
     }
 
     private static successMessage(name: string, message: string = '') {
-        return `✅ ${chalk.greenBright(`${name.charAt(0).toUpperCase() + name.slice(1)} task completed successfully!`)} ${chalk.redBright.underline.bold(message)}`
+        const styledMessage = chalk.redBright.underline.bold(message)
+        const info = chalk.greenBright(`${capitalizeFirst(name)} task completed successfully!`)
+        
+        return `✅ ${info} ${styledMessage}`
     }
 
     private static errorMessage(name: string, message: string = '') {
-        return `❌ ${chalk.white.bgRed(`${name.charAt(0).toUpperCase() + name.slice(1)} task failed!`)} ${chalk.redBright.underline(message)}`
+        const styledMessage = chalk.redBright.underline(message)
+        const info = chalk.white.bgRed(`${capitalizeFirst(name)} task failed!`)
+
+        return `❌ ${info} ${styledMessage}`
     }
 
     public static setTask(taskName: string, fn: (message: SetTaskCallbackOptions) => string | Promise<string> | void): Scheduler {

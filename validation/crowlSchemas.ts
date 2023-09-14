@@ -18,6 +18,7 @@ export const CrowlDataRequestScheme = Yup.object({
 
 export const CrowlDataScheme = Yup.object({
     text: Yup.array().of(CrowlData).nullable(),
+    reply_to: Yup.number().optional()
 });
 
 export type CrowlDataServerRequest = Yup.InferType<typeof CrowlDataScheme> 

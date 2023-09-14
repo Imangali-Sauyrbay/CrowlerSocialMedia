@@ -4,15 +4,15 @@ import { createNotAuthorizedError, createFailedToRetrieveError } from '~/server/
 import { findUserByID } from '~/server/database/users'
 
 export default eventHandler(async (event) => {
-    const authEndpoints = [
-        '/api/auth/user',
-        '/api/crowls'
-    ]
+    // const authEndpoints = [
+    //     '/api/auth/user',
+    //     '/api/crowls'
+    // ]
 
-    const currentUrl = getRequestURL(event).pathname
-    const shouldIntercept = authEndpoints.some(pattern => new UrlPattern(pattern).match(currentUrl))
+    // const currentUrl = getRequestURL(event).pathname
+    // const shouldIntercept = authEndpoints.some(pattern => new UrlPattern(pattern).match(currentUrl))
 
-    if(! shouldIntercept) return
+    // if(! shouldIntercept) return
 
     const authHeader = getHeader(event, 'Authorization')
 
@@ -41,5 +41,4 @@ export default eventHandler(async (event) => {
     } catch (e) {
         event.context.error = createFailedToRetrieveError('user')
     }
-
 })

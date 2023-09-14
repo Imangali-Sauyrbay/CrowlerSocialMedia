@@ -14,11 +14,11 @@ onMounted(() => {
 
 <template>
     <div
-        class="default-border-color h-full overflow-y-auto overflow-x-hidden border-x default-scrollbar"
+        class="default-border-color h-full max-h-full overflow-x-hidden overflow-y-auto border-x default-scrollbar"
     >
         <div
             ref="header"
-            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50"
+            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50 select-none"
         >
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}

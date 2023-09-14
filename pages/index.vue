@@ -8,6 +8,10 @@ const loading = ref(false);
         :title="$t('nav.home')"
         :loading="loading"
     >
+        <Head>
+            <Title>Home</Title>
+        </Head>
+        
         <CrowlForm />
     </MainSection>
 </template>

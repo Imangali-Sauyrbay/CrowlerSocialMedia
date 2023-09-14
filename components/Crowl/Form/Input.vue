@@ -35,7 +35,6 @@ const handleSubmit = () => {
     emits('onSubmit', text.value, files.value)
 }
 
-const exceededMaxLength = computed(() => text.value.length > MAX_CROWL_LENGTH)
 const disabeleButton = computed(() => (text.value.length <= 0 && files.value.length <= 0) || props.isLoading)
 </script>
 
@@ -71,7 +70,7 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
             @removeImage="handleRemoveImage"
         />
 
-        <div class="flex p-2 pl-14 items-center">
+        <div class="flex p-2 pl-5 md:pl-14 items-center">
             <div class="flex items-center">
                 <UIIconButton @click="handleImageUploadClick">
                     <IconImageFrame />
@@ -95,19 +94,19 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
             </div>
 
             
-            <div class="ml-auto mr-2">
-                <span class="ml-2 mr-2 text-sm text-gray-500" :class="{
-                    'text-red-600': exceededMaxLength
-                }">{{ text.length }}/{{ MAX_CROWL_LENGTH }}</span>
+            <div class="ml-auto">
+                <UITextLengthIndicator
+                    :length="text.length"
+                    :max-length="MAX_CROWL_LENGTH"
+                />
 
                 <UIButton
                     @click="handleSubmit"
                     :disabled="disabeleButton"
                     :isLoading="isLoading"
+                    class="font-bold"
                 >
-                    <strong>
-                        Crowl
-                    </strong>
+                    Crowl
                 </UIButton>
             </div>
         </div>

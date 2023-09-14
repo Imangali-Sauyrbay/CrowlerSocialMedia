@@ -8,10 +8,16 @@ const sizes = {
 const prop = defineProps<{
     isLoading?: boolean
     size?: keyof typeof sizes,
+    customSize?: boolean,
     liquid?: boolean
 }>()
 
+defineEmits<{
+    (event: 'click', e: MouseEvent): void
+}>()
+
 const sizeClass = computed(() => {
+    if(prop.customSize && !prop.size) return ''
     if(!prop.size) return sizes['md']
     return sizes[prop.size]
 })
@@ -19,6 +25,7 @@ const sizeClass = computed(() => {
 
 <template>
     <button
+        @click="$emit('click', $event)"
         class="text-white bg-blue-400 rounded-full hover:bg-blue-500 disabled:bg-blue-300 disabled:cursor-not-allowed"
         :class="[sizeClass, liquid ? 'w-full' : 'w-min']"
     >

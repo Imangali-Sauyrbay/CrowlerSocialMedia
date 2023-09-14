@@ -23,7 +23,7 @@ const handleSubmit = (text: string, files: File[]) => {
         :errors="validationErrors || []"
         :isSuccess="isSuccess"
         :isLoading="isLoading"
+        class="default-border-color border-b"
     />
-    <hr>
     {{ data }}
 </template>

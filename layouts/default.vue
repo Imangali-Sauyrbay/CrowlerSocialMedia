@@ -29,7 +29,7 @@ onBeforeMount(() => {
 
         <!-- Main Content -->
         <main
-            class="main col-span-12 h-full max-h-screen w-full xxs:col-span-11 md:col-span-8 xl:col-span-7"
+            class="main col-span-12 h-full max-h-full overflow-hidden w-full xxs:col-span-11 md:col-span-8 xl:col-span-7"
         >
             <slot></slot>
         </main>

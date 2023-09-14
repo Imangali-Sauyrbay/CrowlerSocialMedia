@@ -17,7 +17,7 @@ import {
     BookmarkIcon as BookmarkIconSolid,
     DocumentTextIcon as DocumentTextIconSolid,
     UserIcon as UserIconSolid,
-    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid,
+    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid
 } from "@heroicons/vue/24/solid";
 </script>
 
@@ -90,10 +90,22 @@ import {
                 </SidebarLeftTab>
             </nav>
 
-            <div class="flex-grow w-full mt-4 font-bold">
-                <UIButton :liquid="true" size="lg">
+            <div class="flex-grow w-full mt-4 font-bold flex items-start justify-end xl:justify-stretch">
+                <UIButton
+                    :custom-size="true"
+                    class="ml-auto xl:hidden p-2 mr-[0.15rem]"
+                >
+                    <IconFeather class="w-5 h-5"/>
+                </UIButton>
+
+                <UIButton
+                    :liquid="true"
+                    size="lg"
+                    class="hidden xl:block"
+                >
                     Crowl
                 </UIButton>
+                
             </div>
         </div>
     </div>
