@@ -10,7 +10,7 @@ type FullCrowl = Crowl & {
     _count?: Record<string, number>
 }
 
-export type ExcludedBaseCrowl = Pick<Crowl, 'id' | 'text' | 'created_at' | 'updated_at'>
+export type ExcludedBaseCrowl = Pick<Crowl, 'id' | 'text'>
 
 export type ExcludedCrowl = ExcludedBaseCrowl & {
     author?: ReturnType<typeof userExcludeTransformer>,
@@ -18,6 +18,8 @@ export type ExcludedCrowl = ExcludedBaseCrowl & {
     replies?: ExcludedCrowl[]
     replied_to?: ExcludedCrowl | null,
     _count?: Record<string, number>
+    created_at: string,
+    updated_at: string
 }
 
 export const crowlExcludeTransformer = (crowl: FullCrowl): ExcludedCrowl => {
@@ -29,7 +31,7 @@ export const crowlExcludeTransformer = (crowl: FullCrowl): ExcludedCrowl => {
         author: crowl.author && userExcludeTransformer(crowl.author),
         replied_to: crowl.replied_to && crowlExcludeTransformer(crowl.replied_to),
         '_count': crowl._count ? crowl._count : {},
-        created_at: crowl.created_at,
-        updated_at: crowl.updated_at
+        created_at: crowl.created_at.toISOString(),
+        updated_at: crowl.updated_at.toISOString()
     };
 };

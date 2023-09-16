@@ -90,10 +90,10 @@ import {
                 </SidebarLeftTab>
             </nav>
 
-            <div class="flex-grow w-full mt-4 font-bold flex items-start justify-end xl:justify-stretch">
+            <div class="flex-grow w-full mt-4 font-bold flex items-start justify-end lg:justify-stretch">
                 <UIButton
                     :custom-size="true"
-                    class="ml-auto xl:hidden p-2 mr-[0.15rem]"
+                    class="ml-auto lg:hidden p-2 mr-[0.15rem]"
                 >
                     <IconFeather class="w-5 h-5"/>
                 </UIButton>
@@ -101,7 +101,7 @@ import {
                 <UIButton
                     :liquid="true"
                     size="lg"
-                    class="hidden xl:block"
+                    class="hidden lg:block"
                 >
                     Crowl
                 </UIButton>
@@ -117,11 +117,11 @@ import {
 }
 
 .sidebar-left {
-    @apply col-span-1 hidden h-full min-w-max overflow-y-auto overflow-x-hidden scrollbar-none xxs:block xl:col-span-2;
+    @apply col-span-1 hidden h-full min-w-max overflow-y-auto overflow-x-hidden scrollbar-none xxs:block lg:col-span-2;
 }
 
 .sidebar-left-container {
-    @apply flex h-full w-full flex-col items-end pr-2 xl:items-start xl:pl-2 xl:pr-0;
+    @apply flex h-full w-full flex-col items-end pr-2 lg:items-start lg:pl-2 lg:pr-0;
 }
 
 .logo-link-container {

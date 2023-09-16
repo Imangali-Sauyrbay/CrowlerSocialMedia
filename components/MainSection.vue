@@ -14,28 +14,37 @@ onMounted(() => {
 
 <template>
     <div
-        class="default-border-color h-full max-h-full overflow-x-hidden overflow-y-auto border-x default-scrollbar"
+        class="default-border-color h-full max-h-full overflow-hidden border-x relative"
     >
         <div
             ref="header"
-            class="sticky top-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50 select-none"
+            class="absolute top-0 left-0 right-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50 select-none"
         >
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}
             </h2>
         </div>
         <div
-            v-if="loading"
+            v-show="loading"
             class="offset-height flex items-center justify-center"
         >
             <IconSpinner />
         </div>
-        <slot v-else></slot>
+        <div
+            v-show="!loading"
+            class="w-full h-full"
+        >
+            <slot></slot>
+        </div>
     </div>
 </template>
 
 <style>
 .offset-height {
     height: calc(100% - v-bind(headerHeight));
+}
+
+.offset-padding {
+    padding-top: v-bind(headerHeight);
 }
 </style>

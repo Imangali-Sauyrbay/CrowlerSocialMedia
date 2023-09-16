@@ -25,7 +25,9 @@
     "crowls": {
         "placeholder": "What's up?",
         "max_media_info": "Choose up to {imageCount}-x images and {gifCount}-x GIF animation! | Choose up to {imageCount}-x images or {gifCount}-x GIF animation!",
-        "max_media_title": "Attention!"
+        "max_media_title": "Attention!",
+        "loading": "Loading",
+        "no_posts": "Sorry, But There No More Posts!"
     },
 
     "notifications": {
@@ -89,5 +91,15 @@
             "name": "\"Name\"",
             "password_confirm": "\"Password Confirmation\""
         }
+    },
+
+    "past_time": {
+        "years": "less than year ago | year ago | {count} years ago",
+        "months": "less than month ago | month ago | {count} months ago",
+        "weeks": "less than week ago | week ago | {count} weeks ago",
+        "days": "less than day ago | day ago | {count} days ago",
+        "hours": "less than hour ago | hour ago | {count} hours ago",
+        "minutes": "less than minute ago | minute ago | {count} minutes ago",
+        "seconds": "less than second ago | second ago | {count} seconds ago"
     }
 }

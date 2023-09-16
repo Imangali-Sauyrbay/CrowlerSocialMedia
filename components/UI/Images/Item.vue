@@ -13,7 +13,7 @@ defineEmits<{
 
 <template>
         <div
-            class="w-full h-full rounded-2xl overflow-hidden relative bg-transparency default-border-color border"
+            class="w-full h-full overflow-hidden relative bg-transparency default-border-color border-2"
             :class="{
                 'col-span-2': shouldSpan
             }"

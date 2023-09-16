@@ -1,7 +1,8 @@
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import { H3Error } from 'h3'
 import { createValidationError } from "~/server/utils/ErrorFactories";
-import { getValidationMessages, isValidationError } from "../../utils/validationUtils";
+import { getValidationMessages, isValidationError } from "~/utils/validationUtils"
+import logger from "./logger"
 
 export const validationErrorHandler = (e: unknown): H3Error | null => {
     if (!isValidationError(e)) return null;
@@ -14,6 +15,8 @@ export const defaultErrorHandler = (e: unknown) => {
     if (validationError) return validationError;
     
     if(e instanceof H3Error) return e
+
+    logger.error(e)
 
     return createError({
         status: StatusCodes.INTERNAL_SERVER_ERROR,

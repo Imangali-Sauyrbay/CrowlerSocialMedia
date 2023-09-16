@@ -64,7 +64,7 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
         </div>
 
         <UIImages
-            class="pl-16 pr-5"
+            class="py-4 pl-16 pr-5 "
             :images="images"
             :closable="true"
             @removeImage="handleRemoveImage"

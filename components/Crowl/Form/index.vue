@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const user = useAuthUser()
-const defaultLogo = useDefaultLogo()
+const { withDefaultLogo } = useDefaultLogo()
+
 const {
     validator: { validated, validationErrors },
     mutate,
@@ -18,12 +19,11 @@ const handleSubmit = (text: string, files: File[]) => {
 
 <template>
     <CrowlFormInput
-        :profile="user?.profile || defaultLogo"
+        :profile="withDefaultLogo(user?.profile)"
         @onSubmit="handleSubmit"
         :errors="validationErrors || []"
         :isSuccess="isSuccess"
         :isLoading="isLoading"
         class="default-border-color border-b"
     />
-    {{ data }}
 </template>

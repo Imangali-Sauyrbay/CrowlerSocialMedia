@@ -1,17 +1,28 @@
 <script lang="ts" setup>
-const loading = ref(false);
+const { items, query: {
+    hasNextPage,
+    fetchNextPage,
+    isFetching
+} } = useInfiniteCrowls()
+
 </script>
 
 <template>
     <MainSection
         class="text-black dark:text-white"
         :title="$t('nav.home')"
-        :loading="loading"
+        :loading="false"
     >
         <Head>
             <Title>Home</Title>
         </Head>
+
+        <CrowlListFeed>
+            <template #top>
+                <CrowlForm />
+            </template>
+
+        </CrowlListFeed>
         
-        <CrowlForm />
     </MainSection>
 </template>

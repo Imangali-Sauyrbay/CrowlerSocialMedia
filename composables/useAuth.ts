@@ -23,7 +23,16 @@ const isUnauthorizedError = (e: unknown) => e instanceof FetchError && e.status 
 
 export const useAuthToken = () => useState<string | null>('auth:token')
 export const useAuthUser = () => useState<ExcludedUser | null>('auth:user')
-export const useDefaultLogo = () => useState<string>('default:profile', () => '/assets/images/default-logo.png')
+export const useDefaultLogo = () => {
+    const defaultLogo = useState<string>('default:profile', () => '/assets/images/default-logo.png')
+
+    const withDefaultLogo = (logo: string | null | undefined): string => logo || defaultLogo.value
+
+    return {
+        defaultLogo,
+        withDefaultLogo
+    }
+}
 
 const useAuthInitializing = () => useState<boolean>('auth:initializing', () => true)
 const useRefreshTimeoutID = () => useState<number>('auth:refresh-timeout')

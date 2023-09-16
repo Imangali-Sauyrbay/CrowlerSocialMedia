@@ -7,7 +7,7 @@ export default eventHandler(async (event) => {
             page?: number
         }>(event)
         
-        page = page <= 0 ? 1 : page
+        page = +page <= 0 ? 1 : +page
 
         const crowlWithAll = await getCrowls({
             page,
@@ -17,7 +17,11 @@ export default eventHandler(async (event) => {
                 include: {
                     medias: true,
                     author: true,
-                    replied_to: true,
+                    replied_to: {
+                        include: {
+                            author: true
+                        }
+                    },
 
                     replies: {
                         take: 5,
@@ -38,7 +42,7 @@ export default eventHandler(async (event) => {
 
         return {
             crowls: crowlWithAll.map(crowlExcludeTransformer),
-            page: +page,
+            page,
             pages: await getCrowlsPageCount()
         }
     } catch (e) {

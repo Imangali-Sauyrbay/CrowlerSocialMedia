@@ -65,14 +65,14 @@ const setTooltipPosition = () => {
 }
 
 .tab-text {
-    @apply ml-4 hidden text-lg xl:block;
+    @apply ml-4 hidden text-lg lg:block;
 }
 
 .tab:hover .tab-tooltip {
     display: block;
 }
 
-@screen xl {
+@screen lg {
     .tab:hover .tab-tooltip {
         display: none;
     }
