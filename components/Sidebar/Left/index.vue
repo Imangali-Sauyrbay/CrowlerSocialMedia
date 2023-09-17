@@ -36,19 +36,23 @@ const handleModalOpen = () => handleOpen()
             </div>
 
             <nav class="space-y-1 xs:ml-1">
-                <SidebarLeftTab active :text-content="$t('nav.home')">
-                    <template #icon="{ isActive }">
-                        <HomeIconSolid v-if="isActive" />
-                        <HomeIcon v-else />
-                    </template>
-                </SidebarLeftTab>
+                <nuxt-link to="/" custom v-slot="{ navigate, isExactActive }">
+                    <SidebarLeftTab :active="isExactActive" :text-content="$t('nav.home')" @click="navigate">
+                        <template #icon="{ isActive }">
+                            <HomeIconSolid v-if="isActive" />
+                            <HomeIcon v-else />
+                        </template>
+                    </SidebarLeftTab>
+                </nuxt-link>
 
-                <SidebarLeftTab :text-content="$t('nav.explore')">
-                    <template #icon="{ isActive }">
-                        <HashtagIconSolid v-if="isActive" />
-                        <HashtagIcon v-else />
-                    </template>
-                </SidebarLeftTab>
+                <nuxt-link to="/search" custom v-slot="{ navigate, isExactActive }">
+                    <SidebarLeftTab :active="isExactActive" :text-content="$t('nav.explore')" @click="navigate">
+                        <template #icon="{ isActive }">
+                            <HashtagIconSolid v-if="isActive" />
+                            <HashtagIcon v-else />
+                        </template>
+                    </SidebarLeftTab>
+                </nuxt-link>
 
                 <SidebarLeftTab :text-content="$t('nav.notifications')">
                     <template #icon="{ isActive }">

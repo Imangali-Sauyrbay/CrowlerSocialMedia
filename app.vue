@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 const darkMode = useDarkMode();
-if(process.client) window.addEventListener('keypress', (e: KeyboardEvent) => {
-    if(e.code === 'Numpad1') darkMode.value = !darkMode.value
-})
-
 const isMounted = useIsMounted()
 </script>
 

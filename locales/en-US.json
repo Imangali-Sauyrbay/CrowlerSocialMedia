@@ -22,6 +22,10 @@
         }
     },
 
+    "search": {
+        "results": "Search: {query}"
+    },
+
     "crowls": {
         "placeholder": "What's up?",
         "reply_placeholder": "Crowl Your Reply!",

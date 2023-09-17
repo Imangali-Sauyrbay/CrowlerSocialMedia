@@ -1,15 +1,22 @@
-import { getCrowls, getCrowlsPageCount } from "~/server/database/crowls"
+import { findCrowls, findCrowlsPageCount } from "~/server/database/crowls"
 import { crowlExcludeTransformer } from "~/server/database/transformers/crowl"
 
 export default eventHandler(async (event) => {
     try {
-        let { page = 1 } = getQuery<{
-            page?: number
+        let { page = 1, q } = getQuery<{
+            page?: number,
+            q: string
         }>(event)
         
         page = +page <= 0 ? 1 : +page
+        
+        if(!q || !q.trim()) return {
+            crowls: [],
+            page,
+            pages:0
+        }
 
-        const crowlWithAll = await getCrowls({
+        const crowlWithAll = await findCrowls(q, {
             page,
             includeDefaults: true,
             shouldPaginate: true,
@@ -17,6 +24,7 @@ export default eventHandler(async (event) => {
                 include: {
                     medias: true,
                     author: true,
+
                     replied_to: {
                         include: {
                             author: true
@@ -35,7 +43,7 @@ export default eventHandler(async (event) => {
         return {
             crowls: crowlWithAll.map(crowlExcludeTransformer),
             page,
-            pages: await getCrowlsPageCount()
+            pages: await findCrowlsPageCount(q)
         }
     } catch (e) {
         return defaultErrorHandler(e)

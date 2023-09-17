@@ -76,6 +76,50 @@ export const getCrowlsPageCount = async (perPage: number = 10) => {
     return Math.ceil(crowlCount / perPage)
 }
 
+export const findCrowlsPageCount = async (query: string, perPage: number = 10) => {
+    const crowlCount = await prisma.crowl.count({
+        where: {
+            OR: [
+                {
+                    text: {
+                        search: query,
+                    }
+                },
+                
+                {
+                    text: {
+                        contains: query,
+                        mode: 'insensitive'
+                    }
+                },
+
+                {
+                    medias: {
+                        some: {
+                            name: {
+                                contains: query,
+                                mode: 'insensitive'
+                            }
+                        }
+                    }
+                },
+
+                {
+                    medias: {
+                        some: {
+                            name: {
+                                search: query
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    })
+    
+    return Math.ceil(crowlCount / perPage)
+}
+
 export const getCrowlsRepliesPageCount = async (id: number, perPage: number = 10) => {
     const crowlCount = await prisma.crowl.count({
         where: {
@@ -85,7 +129,7 @@ export const getCrowlsRepliesPageCount = async (id: number, perPage: number = 10
     return Math.ceil(crowlCount / perPage)
 }
 
-export const getCrowls = (options: IGetCrowlsOptions = {}) => {
+const getDataForCrowlGet = (options: IGetCrowlsOptions) => {
     const {
         page = 1,
         params = {},
@@ -94,7 +138,7 @@ export const getCrowls = (options: IGetCrowlsOptions = {}) => {
         shouldPaginate
     } = options
 
-    const pagination = shouldPaginate? paginate(page, perPage) : {}
+    const pagination = shouldPaginate ? paginate(page, perPage) : {}
 
     const defaultOptions: FindCrowlParams = includeDefaults ? {
         orderBy: {
@@ -106,6 +150,74 @@ export const getCrowls = (options: IGetCrowlsOptions = {}) => {
             medias: true,
         }
     } : {}
+
+    return {
+        pagination,
+        defaultOptions,
+        params
+    }
+}
+
+export const findCrowls = (query: string, options: IGetCrowlsOptions = {}) => {
+    const {
+        pagination,
+        defaultOptions,
+        params
+    } = getDataForCrowlGet(options)
+
+    return prisma.crowl.findMany({
+        ...pagination,
+        ...defaultOptions,
+        ...params,
+        where: {
+            ...(defaultOptions.where ?? {}),
+            ...(params.where ?? {}),
+
+            OR: [
+                {
+                    text: {
+                        search: query,
+                    }
+                },
+
+                {
+                    text: {
+                        contains: query,
+                        mode: 'insensitive'
+                    }
+                },
+
+                {
+                    medias: {
+                        some: {
+                            name: {
+                                contains: query,
+                                mode: 'insensitive'
+                            }
+                        }
+                    }
+                },
+
+                {
+                    medias: {
+                        some: {
+                            name: {
+                                search: query
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    })
+}
+
+export const getCrowls = (options: IGetCrowlsOptions = {}) => {
+    const {
+        pagination,
+        defaultOptions,
+        params
+    } = getDataForCrowlGet(options)
 
     return prisma.crowl.findMany({
         ...pagination,

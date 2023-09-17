@@ -32,19 +32,17 @@ export const useDarkMode = () => {
     }
 
     if (process.client) {
-        watch(state, (newState) => {
+        watch(() => state.value, (newState): void => {
             setSate(newState);
             setBodyClass()
         });
 
-        if (getState()) {
-            state.value = true;
-        }
+        state.value = getState();
     }
     
     if (process.server) {
-        const darkMode = useCookie(COOKIE_NAME);
-        state.value = !!JSON.parse(darkMode.value || "true");
+        const darkMode = useCookie<boolean>(COOKIE_NAME);
+        state.value = darkMode.value;
     }
     
     setBodyClass()

@@ -6,11 +6,11 @@ const whatsHappening = [
     },
     {
         title: "#HelloWorld",
-        count: 99_900_000_000,
+        count: 95_000_000,
     },
     {
         title: "#artforall",
-        count: 188,
+        count: 188_156,
     },
     {
         title: "#EggFromInstagramm",
@@ -35,10 +35,17 @@ const whoToFollow = [
         image: "https://picsum.photos/200/200",
     },
 ];
+const darkMode = useDarkMode()
+const handleToggleDarkMode = () => {
+    darkMode.value = !darkMode.value
+}
 </script>
 
 <template>
     <div class="flex w-full flex-col">
+
+        <SearchBar />
+        
         <SidebarRightPreviewCard :title="$t('sidebar.right.titles.news')">
             <SidebarRightPreviewCardItem
                 v-for="{ title, count } in whatsHappening"
@@ -89,6 +96,32 @@ const whoToFollow = [
                 </div>
             </SidebarRightPreviewCardItem>
         </SidebarRightPreviewCard>
+
+        <footer>
+            <ul class="mx-2 my-4 text-xs text-gray-500">
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline" @click.prevent="handleToggleDarkMode">{{ darkMode ? 'Light mode' : 'Dark mode' }}</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline">Cookie Policy</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline">Accessability</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline">Ads info</a>
+                </li>
+                <li class="inline-block mx-2">
+                    <a href="#" class="hover:underline">More</a>
+                </li>
+                <li class="inline-block mx-2">
+                    © {{ new Date().getFullYear() }} Crowler, Inc.
+                </li>
+            </ul>
+        </footer>
     </div>
 </template>
 
