@@ -1,10 +1,10 @@
-import { userExcludeTransformer } from "~/server/database/transformers/user"
-import { getUserFromContext } from "~/server/utils/authUtils"
+import { userExcludeTransformer } from "~/server/database/transformers/user";
+import { getUserFromContext } from "~/server/utils/authUtils";
 
 export default eventHandler((event) => {
-    const user = getUserFromContext(event.context)
+    const user = getUserFromContext(event.context);
 
     return {
-        user: userExcludeTransformer(user)
-    }
-})
+        user: userExcludeTransformer(user),
+    };
+});

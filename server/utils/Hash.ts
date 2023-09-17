@@ -7,5 +7,5 @@ export const hashPassword = (password: string): Promise<string> =>
 
 export const comparePasswords = (
     password: string,
-    hashedPassword: string
+    hashedPassword: string,
 ): Promise<boolean> => compare(password, hashedPassword);

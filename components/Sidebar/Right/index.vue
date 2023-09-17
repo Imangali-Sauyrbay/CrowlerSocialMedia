@@ -35,17 +35,16 @@ const whoToFollow = [
         image: "https://picsum.photos/200/200",
     },
 ];
-const darkMode = useDarkMode()
+const darkMode = useDarkMode();
 const handleToggleDarkMode = () => {
-    darkMode.value = !darkMode.value
-}
+    darkMode.value = !darkMode.value;
+};
 </script>
 
 <template>
     <div class="flex w-full flex-col">
-
         <SearchBar />
-        
+
         <SidebarRightPreviewCard :title="$t('sidebar.right.titles.news')">
             <SidebarRightPreviewCardItem
                 v-for="{ title, count } in whatsHappening"
@@ -99,25 +98,30 @@ const handleToggleDarkMode = () => {
 
         <footer>
             <ul class="mx-2 my-4 text-xs text-gray-500">
-                <li class="inline-block mx-2">
-                    <a href="#" class="hover:underline" @click.prevent="handleToggleDarkMode">{{ darkMode ? 'Light mode' : 'Dark mode' }}</a>
+                <li class="mx-2 inline-block">
+                    <a
+                        href="#"
+                        class="hover:underline"
+                        @click.prevent="handleToggleDarkMode"
+                        >{{ darkMode ? "Light mode" : "Dark mode" }}</a
+                    >
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     <a href="#" class="hover:underline">Privacy Policy</a>
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     <a href="#" class="hover:underline">Cookie Policy</a>
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     <a href="#" class="hover:underline">Accessability</a>
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     <a href="#" class="hover:underline">Ads info</a>
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     <a href="#" class="hover:underline">More</a>
                 </li>
-                <li class="inline-block mx-2">
+                <li class="mx-2 inline-block">
                     © {{ new Date().getFullYear() }} Crowler, Inc.
                 </li>
             </ul>

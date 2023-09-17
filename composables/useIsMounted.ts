@@ -1,10 +1,10 @@
 export const useIsMounted = (isClient: boolean = true) => {
-    const mounted = ref(false)
+    const mounted = ref(false);
 
     onMounted(() => {
-        if(isClient && !process.client) return
-        mounted.value = true
-    })
+        if (isClient && !process.client) return;
+        mounted.value = true;
+    });
 
-    return mounted
-}
+    return mounted;
+};

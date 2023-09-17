@@ -5,14 +5,14 @@ module.exports = {
     safelist: [
         {
             pattern: /text-(red|green|blue)-(100|400)/,
-            variants: ['group-hover']
+            variants: ["group-hover"],
         },
         {
             pattern: /bg-(red|green|blue)-(100|400)/,
-            variants: ['group-hover']
-        }
+            variants: ["group-hover"],
+        },
     ],
-    
+
     theme: {
         screens: {
             xxs: "481px",
@@ -41,5 +41,8 @@ module.exports = {
         },
     },
 
-    plugins: [require("tailwind-scrollbar")({ nocompatible: true }), require("@tailwindcss/forms")], /* eslint-disable-line */
+    plugins: [
+        require("tailwind-scrollbar")({ nocompatible: true }),
+        require("@tailwindcss/forms"),
+    ] /* eslint-disable-line */,
 };

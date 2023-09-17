@@ -1,35 +1,31 @@
 <script setup lang="ts">
-const props = defineProps<{
-    url: string,
-    name: string,
-    shouldSpan: boolean,
-    closable: boolean
-}>()
+defineProps<{
+    url: string;
+    name: string;
+    shouldSpan: boolean;
+    closable: boolean;
+}>();
 
 defineEmits<{
-    (event: 'close', name: MouseEvent): void
-}>()
+    (event: "close", name: MouseEvent): void;
+}>();
 </script>
 
 <template>
-        <div
-            class="w-full h-full overflow-hidden relative bg-transparency default-border-color border-2"
-            :class="{
-                'col-span-2': shouldSpan
-            }"
-        >
-            <img
-                :src="url"
-                :alt="name"
-                class="w-full h-full object-cover"
-            >
+    <div
+        class="bg-transparency default-border-color relative h-full w-full overflow-hidden border-2"
+        :class="{
+            'col-span-2': shouldSpan,
+        }"
+    >
+        <img :src="url" :alt="name" class="h-full w-full object-cover" />
 
-            <UIImagesCloseButton v-if="closable" @click="$emit('close', $event)"/>
-        </div>
+        <UIImagesCloseButton v-if="closable" @click="$emit('close', $event)" />
+    </div>
 </template>
 
 <style scoped>
 .bg-transparency {
-    background-image: url('/assets/images/transparency.png');
+    background-image: url("/assets/images/transparency.png");
 }
 </style>

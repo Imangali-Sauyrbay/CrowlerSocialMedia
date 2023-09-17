@@ -1,61 +1,57 @@
 <script setup lang="ts">
 const props = defineProps<{
-    images: ([string, string])[],
-    closable: boolean,
-    compact?: boolean
-}>()
+    images: [string, string][];
+    closable: boolean;
+    compact?: boolean;
+}>();
 
 defineEmits<{
-    (event: 'removeImage', name: string): void
-}>()
+    (event: "removeImage", name: string): void;
+}>();
 
 const shouldSpanColumn = (i: number) => {
-    if(!(props.images.length & 1)) return false
-    if(i === props.images.length - 1) return true
+    if (!(props.images.length & 1)) return false;
+    if (i === props.images.length - 1) return true;
 
-    return false
-}
+    return false;
+};
 
 const calculateImageClassesToRoundEdges = (i: number) => {
     const classes: string[] = [];
 
-    if(props.images.length === 1) return ['rounded-2xl']
+    if (props.images.length === 1) return ["rounded-2xl"];
 
-    if (props.images.length <= 1)
-        return classes
+    if (props.images.length <= 1) return classes;
 
     // Rounding top Edges
-    if (i === 0) classes.push('rounded-tl-2xl');
-    if (i === 1) classes.push('rounded-tr-2xl');
-
+    if (i === 0) classes.push("rounded-tl-2xl");
+    if (i === 1) classes.push("rounded-tr-2xl");
 
     // Rounding bottom left edges if there 2 or more images
-    if (props.images.length < 3 && i === 0) 
-        classes.push('rounded-bl-2xl');
-    if(props.images.length > 2 && i === 2)
-        classes.push('rounded-bl-2xl');
+    if (props.images.length < 3 && i === 0) classes.push("rounded-bl-2xl");
+    if (props.images.length > 2 && i === 2) classes.push("rounded-bl-2xl");
 
     // Rounding bottom right edge only if it in the corner
-    if(props.images.length < 3 && i === 1)
-        classes.push('rounded-br-2xl');
-    if(props.images.length > 2 && i === 3)
-        classes.push('rounded-br-2xl');
-    if(props.images.length === 3 && i === 2)
-        classes.push('rounded-br-2xl');
+    if (props.images.length < 3 && i === 1) classes.push("rounded-br-2xl");
+    if (props.images.length > 2 && i === 3) classes.push("rounded-br-2xl");
+    if (props.images.length === 3 && i === 2) classes.push("rounded-br-2xl");
 
     return classes;
-}
+};
 </script>
 
 <template>
     <template v-if="!!images.length">
         <div
             v-bind="$attrs"
-            class="w-full grid grid-cols-1 grid-rows-1 gap-1 overflow-hidden"
-            :class="[{
-                'grid-cols-2': images.length > 1,
-                'grid-rows-2': images.length > 2
-            }, compact ? 'max-h-44 h-44' : 'max-h-96 h-96']"
+            class="grid w-full grid-cols-1 grid-rows-1 gap-1 overflow-hidden"
+            :class="[
+                {
+                    'grid-cols-2': images.length > 1,
+                    'grid-rows-2': images.length > 2,
+                },
+                compact ? 'h-44 max-h-44' : 'h-96 max-h-96',
+            ]"
         >
             <TransitionGroup name="image">
                 <UIImagesItem
@@ -75,11 +71,11 @@ const calculateImageClassesToRoundEdges = (i: number) => {
 
 <style>
 .image-move {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .image-leave-active {
-  position: absolute;
-  display: none;
+    position: absolute;
+    display: none;
 }
 </style>

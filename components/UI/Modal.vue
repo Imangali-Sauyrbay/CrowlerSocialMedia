@@ -4,32 +4,24 @@ import {
     TransitionChild,
     Dialog,
     DialogPanel,
-} from '@headlessui/vue'
+} from "@headlessui/vue";
 
 const emits = defineEmits<{
-    (event: 'close'): void
-}>()
+    (event: "close"): void;
+}>();
 
 defineProps<{
-    isOpen: boolean
-}>()
+    isOpen: boolean;
+}>();
 
 const closeModal = () => {
-    emits('close')
-}
+    emits("close");
+};
 </script>
 
 <template>
-    <TransitionRoot
-        as="template"   
-        :show="isOpen"
-        appear
-    >
-        <Dialog
-            as="div"
-            class="relative z-50"
-            @close="closeModal"
-        >
+    <TransitionRoot as="template" :show="isOpen" appear>
+        <Dialog as="div" class="relative z-50" @close="closeModal">
             <TransitionChild
                 as="template"
                 enter="duration-300 ease-out"
@@ -42,11 +34,9 @@ const closeModal = () => {
                 <div class="fixed inset-0 bg-black bg-opacity-50"></div>
             </TransitionChild>
 
-            <div
-                class="fixed inset-0 overflow-y-auto"
-            >
+            <div class="fixed inset-0 overflow-y-auto">
                 <div
-                    class="flex items-center justify-center min-h-full p-4 text-center"
+                    class="flex min-h-full items-center justify-center p-4 text-center"
                 >
                     <TransitionChild
                         as="template"
@@ -58,7 +48,7 @@ const closeModal = () => {
                         leave-to="opacity-0 scale-95"
                     >
                         <DialogPanel
-                            class="w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-dim-800 shadow-xl rounded-2xl"
+                            class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-dim-800"
                         >
                             <slot></slot>
                         </DialogPanel>

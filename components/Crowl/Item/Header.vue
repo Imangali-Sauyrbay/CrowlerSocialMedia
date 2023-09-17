@@ -1,34 +1,33 @@
 <script lang="ts" setup>
-import { ExcludedCrowl } from '~/server/database/transformers/crowl';
-const { withDefaultLogo } = useDefaultLogo()
+import { ExcludedCrowl } from "~/server/database/transformers/crowl";
+const { withDefaultLogo } = useDefaultLogo();
 
 const props = defineProps<{
-    item: ExcludedCrowl
-}>()
+    item: ExcludedCrowl;
+}>();
 
-const replyToUrl = computed(() => `/status/${props.item.replied_to?.id}`)
+const replyToUrl = computed(() => `/status/${props.item.replied_to?.id}`);
 </script>
 
 <template>
-    <div class="flex pl-4 pt-4 h-[63px]">
-
+    <div class="flex h-[63px] pl-4 pt-4">
         <div>
             <img
-                class="w-10 h-10 rounded-full"
+                class="h-10 w-10 rounded-full"
                 :src="withDefaultLogo(item.author?.profile)"
                 :alt="item.author?.name || ''"
-            >
+            />
         </div>
 
         <div class="ml-3">
-            <span class="font-medium text-gray-800 dark:text-white">{{ item.author?.name }}</span>
+            <span class="font-medium text-gray-800 dark:text-white">{{
+                item.author?.name
+            }}</span>
 
             <span
                 class="ml-3 text-sm font-medium text-gray-600 dark:text-gray-400"
             >
-                <NuxtLink to="#">
-                    @{{ item.author?.username }}  
-                </NuxtLink>
+                <NuxtLink to="#"> @{{ item.author?.username }} </NuxtLink>
                 &middot;
                 {{ HRDate(item.created_at) }}
             </span>

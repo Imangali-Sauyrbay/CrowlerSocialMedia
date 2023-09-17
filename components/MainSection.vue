@@ -14,11 +14,11 @@ onMounted(() => {
 
 <template>
     <div
-        class="default-border-color h-full max-h-full overflow-hidden border-x relative"
+        class="default-border-color relative h-full max-h-full overflow-hidden border-x"
     >
         <div
             ref="header"
-            class="absolute top-0 left-0 right-0 bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30 z-50 select-none"
+            class="absolute left-0 right-0 top-0 z-50 select-none bg-white/30 px-4 py-3 backdrop-blur-sm dark:bg-dim-900/30"
         >
             <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100">
                 {{ title }}
@@ -30,10 +30,7 @@ onMounted(() => {
         >
             <IconSpinner />
         </div>
-        <div
-            v-show="!loading"
-            class="w-full h-full"
-        >
+        <div v-show="!loading" class="h-full w-full">
             <slot></slot>
         </div>
     </div>

@@ -38,7 +38,6 @@ export const createFailedToCreateError = (toCreate: string) =>
         statusMessage: ReasonPhrases.INTERNAL_SERVER_ERROR,
     });
 
-
 export const createNotAuthorizedError = (message: string = "NotAuthorized") =>
     createError({
         message,

@@ -3,8 +3,9 @@ import { type RegisterRequest } from "~/validation/authSchemas";
 import { hashPassword } from "~/server/utils/Hash";
 
 export const createUser = async (requestData: RegisterRequest) => {
-    const {password_confirm, ...data} = requestData
-    
+    /* eslint-disable-next-line */
+    const { password_confirm: passwordConfirm, ...data } = requestData;
+
     data.password = await hashPassword(data.password);
 
     return await prisma.user.create({
@@ -31,5 +32,5 @@ export const isUserExists = async (username: string) => {
 export const findUserByID = (id: number) => {
     return prisma.user.findUnique({
         where: { id },
-    })
-}
+    });
+};

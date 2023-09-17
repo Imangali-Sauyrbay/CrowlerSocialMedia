@@ -1,6 +1,9 @@
 <template>
     <svg
-        :class="[$attrs.class ? $attrs.class : '-ml-1 mr-3 h-8 w-8', 'animate-spin text-blue-400']"
+        :class="[
+            $attrs.class ? $attrs.class : '-ml-1 mr-3 h-8 w-8',
+            'animate-spin text-blue-400',
+        ]"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"

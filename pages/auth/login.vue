@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 definePageMeta({
-    layout: 'auth-page',
-})
+    layout: "auth-page",
+});
 
 useHead({
-    title: 'Crowler - Login'
-})
+    title: "Crowler - Login",
+});
 </script>
 
 <template>

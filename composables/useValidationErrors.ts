@@ -1,85 +1,92 @@
-export const useValidationErrorsLocalizer = (errors: Map<string, string>, shouldLocalize: boolean = true): ([string, string])[] => {
-    const localizeError = useValidationMnemonicLocalizer()
-    const { i18n } = useI18nConfig()
+import { type Schema } from "yup";
 
-    const result: ([string, string])[] = [];
+export const useValidationErrorsLocalizer = (
+    errors: Map<string, string>,
+    shouldLocalize: boolean = true,
+): [string, string][] => {
+    const localizeError = useValidationMnemonicLocalizer();
+    const { i18n } = useI18nConfig();
+
+    const result: [string, string][] = [];
 
     for (const [key, value] of errors.entries()) {
-        const path = 'validation.fields.' + key
-        const localizedValue =  i18n.global.t(path)
+        const path = "validation.fields." + key;
+        const localizedValue = i18n.global.t(path);
+
+        const localizedField =
+            localizedValue !== path ? localizedValue : undefined;
 
         result.push([
             key,
-            shouldLocalize
-            ? localizeError(
-                value,
-                localizedValue !== path
-                ? localizedValue
-                : undefined
-            )
-            : value
-        ])
+            shouldLocalize ? localizeError(value, localizedField) : value,
+        ]);
     }
 
     return result;
-}
-
-import {type Schema} from 'yup'
+};
 
 interface ValidatorOptions {
-    shouldLocalize?: boolean
+    shouldLocalize?: boolean;
 }
 
 const defaultOptions: ValidatorOptions = {
-    shouldLocalize: true
-}
+    shouldLocalize: true,
+};
 
 export const useValidator = (options: ValidatorOptions = {}) => {
-    const validationErrors = ref<([string, string])[]>()
-    const unrecognizedFieldsErrors = ref<string[]>()
+    const validationErrors = ref<[string, string][]>();
+    const unrecognizedFieldsErrors = ref<string[]>();
 
     const setErrors = (e: Record<string, string> | Map<string, string>) => {
-        if(!(e instanceof Map)) {
+        if (!(e instanceof Map)) {
             e = new Map(Object.entries(e));
         }
 
-        validationErrors.value = useValidationErrorsLocalizer(e, options.shouldLocalize)
-    }
+        validationErrors.value = useValidationErrorsLocalizer(
+            e,
+            options.shouldLocalize,
+        );
+    };
 
     const setUnrecognizedFields = (data: object) => {
-        const keys = Object.keys({...data})
-        const result: string[] = []
-        
+        const keys = Object.keys({ ...data });
+        const result: string[] = [];
+
         validationErrors.value?.forEach(([key, value]) => {
-            if(!keys.includes(key))
-                result.push(value)
-        })
-        
-        unrecognizedFieldsErrors.value = result
-    }
+            if (!keys.includes(key)) result.push(value);
+        });
 
-    const setAllErrors = (e: Record<string, string> | Map<string, string>, data: object) => {
-        setErrors(e)
-        setUnrecognizedFields(data)
-    }
+        unrecognizedFieldsErrors.value = result;
+    };
 
-    options = Object.assign(defaultOptions, options)
+    const setAllErrors = (
+        e: Record<string, string> | Map<string, string>,
+        data: object,
+    ) => {
+        setErrors(e);
+        setUnrecognizedFields(data);
+    };
 
-    const validated = <T extends Schema>(schema: T, data: object): T['__outputType'] | null => {
+    options = Object.assign(defaultOptions, options);
+
+    const validated = <T extends Schema>(
+        schema: T,
+        data: object,
+    ): T["__outputType"] | null => {
         validationErrors.value = [];
 
         try {
-            return schema.validateSync({...data}, { abortEarly: false })
-        } catch(e) {
-            if(!isValidationError(e)) return null
-            const validationError = getValidationMessages(e)
-            
-            setErrors(validationError)
-            setUnrecognizedFields(data)
+            return schema.validateSync({ ...data }, { abortEarly: false });
+        } catch (e) {
+            if (!isValidationError(e)) return null;
+            const validationError = getValidationMessages(e);
+
+            setErrors(validationError);
+            setUnrecognizedFields(data);
         }
 
-        return null
-    }
+        return null;
+    };
 
     return {
         validationErrors,
@@ -87,6 +94,6 @@ export const useValidator = (options: ValidatorOptions = {}) => {
         setErrors,
         validated,
         setUnrecognizedFields,
-        setAllErrors
-    }
-}
+        setAllErrors,
+    };
+};

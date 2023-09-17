@@ -56,7 +56,7 @@ export const locale: LocaleObject = {
                 originalValue != null && originalValue !== value
                     ? ` (cast from the value \`${printValue(
                           originalValue,
-                          true
+                          true,
                       )}\`).`
                     : ".";
 
@@ -64,13 +64,13 @@ export const locale: LocaleObject = {
                 ? `${path} must be a \`${type}\` type, ` +
                       `but the final value was: \`${printValue(
                           value,
-                          true
+                          true,
                       )}\`` +
                       castMsg
                 : `${path} must match the configured type. ` +
                       `The validated value was: \`${printValue(
                           value,
-                          true
+                          true,
                       )}\`` +
                       castMsg;
         },

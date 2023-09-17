@@ -8,7 +8,7 @@ import {
     DocumentTextIcon,
     UserIcon,
     EllipsisHorizontalCircleIcon,
-    ChevronDownIcon
+    ChevronDownIcon,
 } from "@heroicons/vue/24/outline";
 import {
     HomeIcon as HomeIconSolid,
@@ -18,22 +18,21 @@ import {
     BookmarkIcon as BookmarkIconSolid,
     DocumentTextIcon as DocumentTextIconSolid,
     UserIcon as UserIconSolid,
-    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid
+    EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid,
 } from "@heroicons/vue/24/solid";
 
 defineEmits<{
-    (event: 'logout'): void
-}>()
+    (event: "logout"): void;
+}>();
 
-const { handleOpen } = useCrowlModal()
-const handleModalOpen = () => handleOpen()
+const { handleOpen } = useCrowlModal();
+const handleModalOpen = () => handleOpen();
 
-const user = useAuthUser()
-const {withDefaultLogo} = useDefaultLogo()
+const user = useAuthUser();
+const { withDefaultLogo } = useDefaultLogo();
 
-if(!user) {
-    useRouter()
-    .push('/auth/login')
+if (!user) {
+    useRouter().push("/auth/login");
 }
 </script>
 
@@ -49,8 +48,12 @@ if(!user) {
             </div>
 
             <nav class="space-y-1 xs:ml-1">
-                <nuxt-link to="/" custom v-slot="{ navigate, isExactActive }">
-                    <SidebarLeftTab :active="isExactActive" :text-content="$t('nav.home')" @click="navigate">
+                <nuxt-link v-slot="{ navigate, isExactActive }" to="/" custom>
+                    <SidebarLeftTab
+                        :active="isExactActive"
+                        :text-content="$t('nav.home')"
+                        @click="navigate"
+                    >
                         <template #icon="{ isActive }">
                             <HomeIconSolid v-if="isActive" />
                             <HomeIcon v-else />
@@ -58,8 +61,16 @@ if(!user) {
                     </SidebarLeftTab>
                 </nuxt-link>
 
-                <nuxt-link to="/search" custom v-slot="{ navigate, isExactActive }">
-                    <SidebarLeftTab :active="isExactActive" :text-content="$t('nav.explore')" @click="navigate">
+                <nuxt-link
+                    v-slot="{ navigate, isExactActive }"
+                    to="/search"
+                    custom
+                >
+                    <SidebarLeftTab
+                        :active="isExactActive"
+                        :text-content="$t('nav.explore')"
+                        @click="navigate"
+                    >
                         <template #icon="{ isActive }">
                             <HashtagIconSolid v-if="isActive" />
                             <HashtagIcon v-else />
@@ -110,47 +121,51 @@ if(!user) {
                 </SidebarLeftTab>
             </nav>
 
-            <div class="flex-grow w-full mt-4 font-bold flex items-start justify-end lg:justify-stretch">
+            <div
+                class="mt-4 flex w-full flex-grow items-start justify-end font-bold lg:justify-stretch"
+            >
                 <UIButton
-                    @click="handleModalOpen"
                     :custom-size="true"
-                    class="ml-auto lg:hidden p-2 mr-[0.15rem]"
+                    class="ml-auto mr-[0.15rem] p-2 lg:hidden"
+                    @click="handleModalOpen"
                 >
-                    <IconFeather class="w-5 h-5"/>
+                    <IconFeather class="h-5 w-5" />
                 </UIButton>
 
                 <UIButton
-                    @click="handleModalOpen"
                     :liquid="true"
                     size="lg"
                     class="hidden lg:block"
+                    @click="handleModalOpen"
                 >
                     Crowl
                 </UIButton>
-                
             </div>
 
             <div
-                class="flex flex-row items-center justify-center px-2 py-2 ml-auto mt-auto mb-5 rounded-full cursor-pointer w-14 xl:w-full hover:bg-gray-100 dark:hover:bg-dim-800 default-transition"
+                class="default-transition mb-5 ml-auto mt-auto flex w-14 cursor-pointer flex-row items-center justify-center rounded-full px-2 py-2 hover:bg-gray-100 dark:hover:bg-dim-800 xl:w-full"
                 @click="$emit('logout')"
             >
-
                 <div class="flex flex-row">
-                    <img :src="withDefaultLogo(user?.profile)" class="w-10 h-10 rounded-full">
-                    <div class="flex-col hidden ml-2 lg:block">
-                        <h1 class="text-sm font-bold text-gray-800 dark:text-white">
+                    <img
+                        :src="withDefaultLogo(user?.profile)"
+                        class="h-10 w-10 rounded-full"
+                    />
+                    <div class="ml-2 hidden flex-col lg:block">
+                        <h1
+                            class="text-sm font-bold text-gray-800 dark:text-white"
+                        >
                             {{ user?.name }}
                         </h1>
                         <p class="text-sm text-gray-400">
                             @{{ user?.username }}
                         </p>
                     </div>
-
                 </div>
 
                 <!-- ICON -->
-                <div class="hidden ml-auto lg:block ">
-                    <div class="w-6 h-6 text-gray-800 dark:text-white">
+                <div class="ml-auto hidden lg:block">
+                    <div class="h-6 w-6 text-gray-800 dark:text-white">
                         <ChevronDownIcon />
                     </div>
                 </div>

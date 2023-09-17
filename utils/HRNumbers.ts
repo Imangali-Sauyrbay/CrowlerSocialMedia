@@ -54,13 +54,17 @@ export const HRNumbers = (num: number): string => {
 export const isIsoDate = (str: string) => {
     if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
 
-    const date = new Date(str); 
+    const date = new Date(str);
 
-    return date instanceof Date && !isNaN(date.getTime()) && date.toISOString() === str;
-}
+    return (
+        date instanceof Date &&
+        !isNaN(date.getTime()) &&
+        date.toISOString() === str
+    );
+};
 
 export const getTimeComponents = (time: number) => {
-    const millisecondsPerSecond = 1000
+    const millisecondsPerSecond = 1000;
     const millisecondsPerMinute = millisecondsPerSecond * 60;
     const millisecondsPerHour = millisecondsPerMinute * 60;
     const millisecondsPerDay = millisecondsPerHour * 24;
@@ -84,7 +88,7 @@ export const getTimeComponents = (time: number) => {
     time %= millisecondsPerHour;
 
     const minutes = Math.floor(time / millisecondsPerMinute);
-    time %= millisecondsPerMinute
+    time %= millisecondsPerMinute;
 
     const seconds = Math.floor(time / millisecondsPerSecond);
 
@@ -95,54 +99,51 @@ export const getTimeComponents = (time: number) => {
         days,
         hours,
         minutes,
-        seconds
+        seconds,
     };
-}
+};
 
 export const HRDate = (date: string) => {
-    if(! isIsoDate(date))
-        throw new Error('Expected ISO string, but got: ' + date)
-
-    const {i18n: {global: { t }}} = useI18nConfig()
-
-    const milliseconds = new Date(date).getTime()
-    const now = Date.now()
-
-    const pastTime = now - milliseconds
+    if (!isIsoDate(date))
+        throw new Error("Expected ISO string, but got: " + date);
 
     const {
-        seconds,
-        minutes,
-        hours,
-        days,
-        weeks,
-        months,
-        years
-    } = getTimeComponents(pastTime)
+        i18n: {
+            global: { t },
+        },
+    } = useI18nConfig();
 
-    if(years > 0) {
-        return t('past_time.years', years)
+    const milliseconds = new Date(date).getTime();
+    const now = Date.now();
+
+    const pastTime = now - milliseconds;
+
+    const { seconds, minutes, hours, days, weeks, months, years } =
+        getTimeComponents(pastTime);
+
+    if (years > 0) {
+        return t("past_time.years", years);
     }
 
-    if(months > 0) {
-        return t('past_time.months', months)
+    if (months > 0) {
+        return t("past_time.months", months);
     }
 
-    if(weeks > 0) {
-        return t('past_time.weeks', weeks)
+    if (weeks > 0) {
+        return t("past_time.weeks", weeks);
     }
 
-    if(days > 0) {
-        return t('past_time.days', days)
+    if (days > 0) {
+        return t("past_time.days", days);
     }
 
-    if(hours > 0) {
-        return t('past_time.hours', hours)
+    if (hours > 0) {
+        return t("past_time.hours", hours);
     }
 
-    if(minutes > 0) {
-        return t('past_time.minutes', minutes)
+    if (minutes > 0) {
+        return t("past_time.minutes", minutes);
     }
 
-    return t('past_time.seconds', seconds)
-}
+    return t("past_time.seconds", seconds);
+};

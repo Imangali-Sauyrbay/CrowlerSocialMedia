@@ -7,56 +7,75 @@ let sharinganAudio: HTMLAudioElement;
 let isScreenWideEnough = false;
 
 if (process.client)
-    isScreenWideEnough = document.documentElement.clientWidth >= 720
+    isScreenWideEnough = document.documentElement.clientWidth >= 720;
 
 if (process.client && isScreenWideEnough) {
-    sharinganAudio = new Audio('/assets/sounds/sharingan-sfx.mp3');
+    sharinganAudio = new Audio("/assets/sounds/sharingan-sfx.mp3");
 
     const canPlay = () => {
         sharinganSFXLoaded.value = true;
-        sharinganAudio.removeEventListener('canplaythrough', canPlay)
-    }
+        sharinganAudio.removeEventListener("canplaythrough", canPlay);
+    };
 
-    sharinganAudio.addEventListener('canplaythrough', canPlay)
+    sharinganAudio.addEventListener("canplaythrough", canPlay);
 }
 
 const onImageLoaded = () => {
     showImage.value = true;
 };
 
-const stopWatchPlaySound = watch([showImage, sharinganSFXLoaded], ([imageLoaded, soundLoaded]) => {
-    if (imageLoaded && soundLoaded && process.client && isScreenWideEnough) {
-        sharinganAudio.volume = .05;
+const stopWatchPlaySound = watch(
+    [showImage, sharinganSFXLoaded],
+    ([imageLoaded, soundLoaded]) => {
+        if (
+            imageLoaded &&
+            soundLoaded &&
+            process.client &&
+            isScreenWideEnough
+        ) {
+            sharinganAudio.volume = 0.05;
 
-        setTimeout(() => {
-            sharinganAudio.play().catch(() => {/* Swallow any error */});
-            sharinganActivated.value = true;
-        }, 200);
+            setTimeout(() => {
+                sharinganAudio.play().catch(() => {
+                    /* Swallow any error */
+                });
+                sharinganActivated.value = true;
+            }, 200);
 
-        stopWatchPlaySound();
-    }
-})
+            stopWatchPlaySound();
+        }
+    },
+);
 
 const mounted = ref(false);
 onMounted(() => {
-    if (process.client)
-        mounted.value = true;
+    if (process.client) mounted.value = true;
 });
 </script>
 
 <template>
-    <div class="relative transition duration-1000 hidden bg-gray-300 dark:bg-dim-800 max-[720px]:flex-1 min-[721px]:block min-[721px]:max-[960px]:basis-1/3 min-[961px]:flex-1"
+    <div
+        class="relative hidden bg-gray-300 transition duration-1000 dark:bg-dim-800 max-[720px]:flex-1 min-[721px]:block min-[721px]:max-[960px]:basis-1/3 min-[961px]:flex-1"
         :style="{
             filter: showImage ? 'blur(0px)' : 'blur(6px)',
-        }">
-        <img v-if="mounted" src="/assets/images/auth/auth-logo.jpg" alt="Crow with mangekyou sharingan"
-            class="absolute crow-image transition ease-in-out duration-300 inset-0 h-full w-full select-none object-cover"
+        }"
+    >
+        <img
+            v-if="mounted"
+            src="/assets/images/auth/auth-logo.jpg"
+            alt="Crow with mangekyou sharingan"
+            class="crow-image absolute inset-0 h-full w-full select-none object-cover transition duration-300 ease-in-out"
             :style="{
                 opacity: +showImage,
                 transform: `scale(${+showImage})`,
-            }" @load="onImageLoaded" />
+            }"
+            @load="onImageLoaded"
+        />
 
-        <div class="overlay transition duration-500 ease-in-out" :class="{ sharinganActivated }"></div>
+        <div
+            class="overlay transition duration-500 ease-in-out"
+            :class="{ sharinganActivated }"
+        ></div>
     </div>
 </template>
 

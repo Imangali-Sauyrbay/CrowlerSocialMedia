@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import { type User } from "@prisma/client";
 import jwt, { type JwtPayload } from "jsonwebtoken"; /* eslint-disable-line */
 import { type H3Event } from "h3";
@@ -10,23 +11,17 @@ type Tokens = {
 export const generateAccessToken = (user: User): string => {
     const config = useRuntimeConfig();
 
-    /* eslint-disable-next-line */
-    return jwt.sign(
-        { userId: user.id },
-        config.jwtAccessSecret,
-        { expiresIn: "10m" }
-    );
+    return jwt.sign({ userId: user.id }, config.jwtAccessSecret, {
+        expiresIn: "10m",
+    });
 };
 
 export const generateRefreshToken = (user: User): string => {
     const config = useRuntimeConfig();
 
-    /* eslint-disable-next-line */
-    return jwt.sign(
-        { userId: user.id },
-        config.jwtRefreshSecret,
-        { expiresIn: "4h" }
-    );
+    return jwt.sign({ userId: user.id }, config.jwtRefreshSecret, {
+        expiresIn: "4h",
+    });
 };
 
 export const generateTokens = (user: User): Tokens => ({
@@ -45,34 +40,34 @@ export const decodeRefreshToken = (token: string) => {
     const config = useRuntimeConfig();
 
     try {
-        const decoded = jwt.verify(token, config.jwtRefreshSecret)
+        const decoded = jwt.verify(token, config.jwtRefreshSecret);
 
-        if (typeof decoded === 'string') {
+        if (typeof decoded === "string") {
             return {
-                payload: decoded
-            } as JwtPayload
+                payload: decoded,
+            } as JwtPayload;
         }
 
-        return decoded
+        return decoded;
     } catch (error) {
-        return null
+        return null;
     }
-}
+};
 
 export const decodeAccessToken = (token: string) => {
     const config = useRuntimeConfig();
 
     try {
-        const decoded = jwt.verify(token, config.jwtAccessSecret)
+        const decoded = jwt.verify(token, config.jwtAccessSecret);
 
-        if (typeof decoded === 'string') {
+        if (typeof decoded === "string") {
             return {
-                payload: decoded
-            } as JwtPayload
+                payload: decoded,
+            } as JwtPayload;
         }
 
-        return decoded
+        return decoded;
     } catch (error) {
-        return null
+        return null;
     }
-}
+};

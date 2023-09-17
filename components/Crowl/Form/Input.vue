@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-import { MAX_CROWL_LENGTH } from '~/constants/FORMS'
+import { MAX_CROWL_LENGTH } from "~/constants/FORMS";
 
 const props = defineProps<{
-    profile: string
-    errors: [string, string][]
-    isLoading: boolean,
-    isSuccess: boolean,
-    placeholder?: string,
-    compact?: boolean
-}>()
+    profile: string;
+    errors: [string, string][];
+    isLoading: boolean;
+    isSuccess: boolean;
+    placeholder?: string;
+    compact?: boolean;
+}>();
 
 const emits = defineEmits<{
-    (event: 'onSubmit', text: string, files: File[]): void
-}>()
+    (event: "onSubmit", text: string, files: File[]): void;
+}>();
 
-const text = ref<string>('')
+const text = ref<string>("");
 
 const {
     imageFilesInput,
@@ -22,58 +22,72 @@ const {
     files,
     handleImageUploadClick,
     handleImageChange,
-    handleRemoveImage
-} = useImageUploader()
+    handleRemoveImage,
+} = useImageUploader();
 
-watch(() => props.isSuccess, (newValue) => {
-    if(newValue) {
-        images.value = [],
-        files.value = [],
-        text.value = ''
-    }
-})
+watch(
+    () => props.isSuccess,
+    (newValue) => {
+        if (newValue) {
+            images.value = [];
+            files.value = [];
+            text.value = "";
+        }
+    },
+);
 
 const handleSubmit = () => {
-    emits('onSubmit', text.value, files.value)
-}
+    emits("onSubmit", text.value, files.value);
+};
 
-const disabeleButton = computed(() => (text.value.length <= 0 && files.value.length <= 0) || props.isLoading)
+const disabeleButton = computed(
+    () =>
+        (text.value.length <= 0 && files.value.length <= 0) || props.isLoading,
+);
 </script>
 
 <template>
     <div class="h-fit">
-        <div class="flex w-full items-center flex-shrink-0 p-4 pb-0" :class="[compact ? 'h-20' : 'h-28']">
+        <div
+            class="flex w-full flex-shrink-0 items-center p-4 pb-0"
+            :class="[compact ? 'h-20' : 'h-28']"
+        >
             <div class="flex w-12 items-start self-start pt-2">
-                <img :src="profile" alt="Profile Picture" class="inline-block w-10 h-10 rounded-full">
+                <img
+                    :src="profile"
+                    alt="Profile Picture"
+                    class="inline-block h-10 w-10 rounded-full"
+                />
             </div>
 
-            <div class="w-full p-2 h-full" >
+            <div class="h-full w-full p-2">
                 <textarea
                     v-model="text"
                     :placeholder="placeholder ?? $t('crowls.placeholder')"
-                    class="default-scrollbar w-full h-full text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0 resize-none">
+                    class="default-scrollbar h-full w-full resize-none border-0 bg-transparent text-lg text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-white"
+                >
                 </textarea>
-                
+
                 <input
-                    type="file"
                     ref="imageFilesInput"
+                    type="file"
                     accept="image/png, image/jpeg, image/webp, image/gif"
-                    @change="handleImageChange"
                     hidden
                     multiple
-                >
+                    @change="handleImageChange"
+                />
             </div>
         </div>
 
         <UIImages
-            class="py-4 pl-16 pr-5 "
+            class="py-4 pl-16 pr-5"
             :images="images"
             :closable="true"
-            @removeImage="handleRemoveImage"
             :compact="compact"
+            @remove-image="handleRemoveImage"
         />
 
-        <div class="flex p-2 pl-5 md:pl-14 items-center">
+        <div class="flex items-center p-2 pl-5 md:pl-14">
             <div class="flex items-center">
                 <UIIconButton @click="handleImageUploadClick">
                     <IconImageFrame />
@@ -92,11 +106,10 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
                 </UIIconButton>
 
                 <UIIconButton>
-                    <IconCalendar/>
+                    <IconCalendar />
                 </UIIconButton>
             </div>
 
-            
             <div class="ml-auto">
                 <UITextLengthIndicator
                     :length="text.length"
@@ -104,10 +117,10 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
                 />
 
                 <UIButton
-                    @click="handleSubmit"
                     :disabled="disabeleButton"
-                    :isLoading="isLoading"
+                    :is-loading="isLoading"
                     class="font-bold"
+                    @click="handleSubmit"
                 >
                     Crowl
                 </UIButton>

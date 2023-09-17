@@ -1,65 +1,63 @@
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n';
-import { ExcludedCrowl } from '~/server/database/transformers/crowl';
+import { useI18n } from "vue-i18n";
+import { ExcludedCrowl } from "~/server/database/transformers/crowl";
 
 const {
     useCrowlModalState,
     handleClose,
     useCrowlModalReply,
     handleOpen,
-    onOpen
-} = useCrowlModal()
+    onOpen,
+} = useCrowlModal();
 
-const isOpen = useCrowlModalState()
-const bus = useCrowlModalEvents()
-const replyTo = useCrowlModalReply()
+const isOpen = useCrowlModalState();
+const bus = useCrowlModalEvents();
+const replyTo = useCrowlModalReply();
 
-const { t } = useI18n()
+const { t } = useI18n();
 
-const placeholder = ref<string | undefined>()
+const placeholder = ref<string | undefined>();
 
 const unsub = onOpen(() => {
-    placeholder.value = replyTo.value ? t('crowls.reply_placeholder') : undefined
-})
+    placeholder.value = replyTo.value
+        ? t("crowls.reply_placeholder")
+        : undefined;
+});
 
 bus.on((event, payload) => {
-    switch(event) {
-        case 'close':
-            handleClose()
-            break;
-
-        case 'open':
-            handleOpen(payload?.replyTo)
+    if (event === "close") {
+        handleClose();
     }
-})
+
+    if (event === "open") {
+        handleOpen(payload?.replyTo);
+    }
+});
 
 const onSuccess = (data: ExcludedCrowl) => {
     handleClose();
     handleFormSuccess(data);
-}
+};
 
-onBeforeUnmount(unsub)
+onBeforeUnmount(unsub);
 </script>
 
 <template>
-    <UIModal
-        :isOpen="isOpen"
-        @close="handleClose"
-    >
+    <UIModal :is-open="isOpen" @close="handleClose">
         <CrowlItem
             v-if="replyTo"
             class="default-border-color border-b pb-4"
             :crowl="replyTo"
-            compactImage
+            compact-image
             compact
-            hideActions
+            hide-actions
         />
 
         <CrowlForm
-            @success="onSuccess"
-            :replyTo="replyTo?.id"
+            :reply-to="replyTo?.id"
             :placeholder="placeholder"
             compact
+            @success="onSuccess"
         />
     </UIModal>
 </template>

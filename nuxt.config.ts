@@ -12,18 +12,22 @@ export default defineNuxtConfig({
         "@vue-macros/nuxt",
         "@nuxtjs/fontaine",
         "@vueuse/nuxt",
-        "magic-regexp/nuxt"
+        "magic-regexp/nuxt",
     ],
 
+    build: {
+        transpile: ["@heroicons/vue"],
+    },
+
     css: ["~/assets/styles/main.css"],
-    
+
     vite: {
         plugins: [
             VueI18nVitePlugin({
                 include: [
                     resolve(
                         dirname(fileURLToPath(import.meta.url)),
-                        "./locales/*.json"
+                        "./locales/*.json",
                     ),
                 ],
             }),
@@ -31,10 +35,10 @@ export default defineNuxtConfig({
     },
 
     runtimeConfig: {
-        jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET ?? '',
-        jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET ?? '',
-        cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME ?? '',
-        cloudinaryAPIKey: process.env.CLOUDINARY_API_KEY ?? '',
-        cloudinaryAPISecret: process.env.CLOUDINARY_API_SECRET ?? ''
+        jwtAccessSecret: process.env.JWT_ACCESS_TOKEN_SECRET ?? "",
+        jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET ?? "",
+        cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME ?? "",
+        cloudinaryAPIKey: process.env.CLOUDINARY_API_KEY ?? "",
+        cloudinaryAPISecret: process.env.CLOUDINARY_API_SECRET ?? "",
     },
 });

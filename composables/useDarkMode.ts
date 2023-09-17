@@ -19,32 +19,35 @@ export const useDarkMode = () => {
     const state = useState("darkMode", () => true);
 
     const setBodyClass = () => {
-        if(process.client)
-            document.body.classList[state.value ? 'add' : 'remove']('dark')
+        if (process.client)
+            document.body.classList[state.value ? "add" : "remove"]("dark");
 
-        if(process.server) {
+        if (process.server) {
             useHead({
                 bodyAttrs: {
-                    class: state.value ? 'dark' : ''
-                }
-            })
+                    class: state.value ? "dark" : "",
+                },
+            });
         }
-    }
+    };
 
     if (process.client) {
-        watch(() => state.value, (newState): void => {
-            setSate(newState);
-            setBodyClass()
-        });
+        watch(
+            () => state.value,
+            (newState): void => {
+                setSate(newState);
+                setBodyClass();
+            },
+        );
 
         state.value = getState();
     }
-    
+
     if (process.server) {
         const darkMode = useCookie<boolean>(COOKIE_NAME);
         state.value = darkMode.value;
     }
-    
-    setBodyClass()
+
+    setBodyClass();
     return state;
 };

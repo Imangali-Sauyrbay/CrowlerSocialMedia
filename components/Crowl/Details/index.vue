@@ -1,29 +1,35 @@
 <script lang="ts" setup>
-import { ExcludedCrowl } from '~/server/database/transformers/crowl';
+import { ExcludedCrowl } from "~/server/database/transformers/crowl";
 
 const props = defineProps<{
-    crowl: ExcludedCrowl
-}>()
+    crowl: ExcludedCrowl;
+}>();
 
-const id = ref<number>(props.crowl.id)
+const id = ref<number>(props.crowl.id);
 
-const {items, query: {
-    hasNextPage,
-    fetchNextPage,
-    isFetching
-}} = useInfiniteReplies(id)
+const {
+    items,
+    query: { hasNextPage, fetchNextPage, isFetching },
+} = useInfiniteReplies(id);
 </script>
 
 <template>
-    <div class="w-full h-full">
+    <div class="h-full w-full">
         <CrowlListFeed
             :items="items"
-            :fetch-next-page="() => { fetchNextPage() }"
+            :fetch-next-page="
+                () => {
+                    fetchNextPage();
+                }
+            "
             :is-fetching="isFetching"
             :has-next-page="hasNextPage"
         >
             <template #top>
-                <CrowlItem :crowl="crowl" class="border-b default-border-color pb-4" />
+                <CrowlItem
+                    :crowl="crowl"
+                    class="default-border-color border-b pb-4"
+                />
 
                 <CrowlForm
                     :placeholder="$t('crowls.reply_placeholder')"
@@ -32,8 +38,8 @@ const {items, query: {
                 />
             </template>
 
-            <template #noMore="{ hasNextPage }">
-                <CrowlListNoMore v-if="!hasNextPage" type="replies"/>
+            <template #noMore>
+                <CrowlListNoMore v-if="!hasNextPage" type="replies" />
             </template>
         </CrowlListFeed>
     </div>

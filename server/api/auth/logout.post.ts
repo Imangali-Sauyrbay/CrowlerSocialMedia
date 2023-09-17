@@ -1,26 +1,29 @@
-import { createNotAuthorizedError } from '~/server/utils/ErrorFactories'
-import { getRefreshTokenByToken, deleteRefreshTokenByID } from '~/server/database/refreshTokens'
+import { createNotAuthorizedError } from "~/server/utils/ErrorFactories";
+import {
+    getRefreshTokenByToken,
+    deleteRefreshTokenByID,
+} from "~/server/database/refreshTokens";
 
 export default eventHandler(async (event) => {
     try {
-        const refreshTokenCookie = getCookie(event, 'refresh_token')
+        const refreshTokenCookie = getCookie(event, "refresh_token");
 
-        if(! refreshTokenCookie) {
-            return createNotAuthorizedError("Refresh token not setted")
+        if (!refreshTokenCookie) {
+            return createNotAuthorizedError("Refresh token not setted");
         }
 
-        const refreshToken = await getRefreshTokenByToken(refreshTokenCookie)
+        const refreshToken = await getRefreshTokenByToken(refreshTokenCookie);
 
-        if(! refreshToken) {
-            return createNotAuthorizedError("Invalid refresh token")
+        if (!refreshToken) {
+            return createNotAuthorizedError("Invalid refresh token");
         }
-        
-        await deleteRefreshTokenByID(refreshToken.id)
+
+        await deleteRefreshTokenByID(refreshToken.id);
 
         return {
-            success: true
-        }
+            success: true,
+        };
     } catch (e) {
         return defaultErrorHandler(e);
     }
-})
+});

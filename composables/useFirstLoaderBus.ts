@@ -2,8 +2,8 @@ const promises: Promise<any>[] = [];
 const isFirstLoading = ref(true);
 const MIN_TIME_TO_SHOW = 700;
 
-let id = ref(0);
-let startTime = ref(Date.now());
+const id = ref(0);
+const startTime = ref(Date.now());
 let timeout: number;
 
 const setPromiseAll = () => {
@@ -14,17 +14,17 @@ const setPromiseAll = () => {
     clearTimeout(timeout);
 
     Promise.allSettled(promises).then(() => {
-        if (currentID !== id.value - 1) return
-        
+        if (currentID !== id.value - 1) return;
+
         const now = Date.now();
 
         if (now - startTime.value > MIN_TIME_TO_SHOW)
-            return isFirstLoading.value = false;
+            return (isFirstLoading.value = false);
 
         timeout = window.setTimeout(
             () => (isFirstLoading.value = false),
-            MIN_TIME_TO_SHOW - (now - startTime.value)
-        );        
+            MIN_TIME_TO_SHOW - (now - startTime.value),
+        );
     });
 };
 
