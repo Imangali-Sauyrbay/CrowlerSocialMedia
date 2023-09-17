@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-const { items, query: {
+const { items, invalidate, query: {
     hasNextPage,
     fetchNextPage,
     isFetching
 } } = useInfiniteCrowls()
 
+const invalidateQueries = () => {
+    invalidate()
+}
 </script>
 
 <template>
@@ -17,9 +20,14 @@ const { items, query: {
             <Title>Home</Title>
         </Head>
 
-        <CrowlListFeed>
+        <CrowlListFeed
+            :items="items"
+            :fetch-next-page="() => { fetchNextPage() }"
+            :is-fetching="isFetching"
+            :has-next-page="hasNextPage"
+        >
             <template #top>
-                <CrowlForm />
+                <CrowlForm @success="invalidateQueries"/>
             </template>
 
         </CrowlListFeed>

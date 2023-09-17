@@ -1,5 +1,15 @@
-import { VueQueryPlugin } from "@tanstack/vue-query";
+import { VueQueryPlugin, VueQueryPluginOptions } from "@tanstack/vue-query";
+
+const vueQueryPluginOptions: VueQueryPluginOptions = {
+    queryClientConfig: {
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+        },
+      },
+    },
+  }
 
 export default defineNuxtPlugin(({ vueApp }) => {
-    vueApp.use(VueQueryPlugin)
+    vueApp.use(VueQueryPlugin, vueQueryPluginOptions)
 })

@@ -24,10 +24,12 @@
 
     "crowls": {
         "placeholder": "What's up?",
+        "reply_placeholder": "Crowl Your Reply!",
         "max_media_info": "Choose up to {imageCount}-x images and {gifCount}-x GIF animation! | Choose up to {imageCount}-x images or {gifCount}-x GIF animation!",
         "max_media_title": "Attention!",
         "loading": "Loading",
-        "no_posts": "Sorry, But There No More Posts!"
+        "no_posts": "Sorry, But There No More Posts!",
+        "no_replies": "You've reached end!"
     },
 
     "notifications": {

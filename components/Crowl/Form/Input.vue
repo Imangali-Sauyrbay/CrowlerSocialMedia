@@ -5,7 +5,8 @@ const props = defineProps<{
     profile: string
     errors: [string, string][]
     isLoading: boolean,
-    isSuccess: boolean
+    isSuccess: boolean,
+    placeholder?: string
 }>()
 
 const emits = defineEmits<{
@@ -48,7 +49,7 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
             <div class="w-full p-2 h-full" >
                 <textarea
                     v-model="text"
-                    :placeholder="$t('crowls.placeholder')"
+                    :placeholder="placeholder ?? $t('crowls.placeholder')"
                     class="default-scrollbar w-full h-full text-lg text-gray-900 placeholder:text-gray-400 bg-transparent border-0 dark:text-white focus:ring-0 resize-none">
                 </textarea>
                 

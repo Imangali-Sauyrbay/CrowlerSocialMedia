@@ -15,6 +15,11 @@ export const createCrowl = (data: Crowl) => {
     })
 }
 
+export const paginate = (page: number, perPage: number) => ({
+    skip: (perPage * page) - perPage,
+    take: perPage
+})
+
 const defaultIncluded: Prisma.CrowlInclude = {
     medias: true,
     replied_to: {
@@ -30,23 +35,33 @@ type IGetCrowlByIdOptions = {
     include?: Prisma.CrowlInclude
 }
 
+const getToInclude = ({include, includeDefault}: IGetCrowlByIdOptions): FindCrowlParams => includeDefault
+? {include: defaultIncluded}
+: include
+    ? { include }
+    : {}
+
 export const getCrowlById = (id: number, options: IGetCrowlByIdOptions = {}) => {
-    const {include, includeDefault} = options
-
-    const toInclude: FindCrowlParams = includeDefault
-    ? {include: defaultIncluded}
-    : include
-        ? {include}
-        : {}
-
     return prisma.crowl.findFirst({
         where: {
             id,
         },
 
-        ...toInclude,
+        ...getToInclude(options),
     })
 }
+
+export const getCrowlRepliesById = (id: number, page: number, options: IGetCrowlByIdOptions = {}, perPage: number = 10) => {
+    return prisma.crowl.findMany({
+        where: {
+            reply_to_id: id,
+        },
+
+        ...getToInclude(options),
+        ...paginate(page, perPage),
+    })
+}
+
 
 type IGetCrowlsOptions = {
     params?: FindCrowlParams
@@ -60,6 +75,16 @@ export const getCrowlsPageCount = async (perPage: number = 10) => {
     const crowlCount = await prisma.crowl.count()
     return Math.ceil(crowlCount / perPage)
 }
+
+export const getCrowlsRepliesPageCount = async (id: number, perPage: number = 10) => {
+    const crowlCount = await prisma.crowl.count({
+        where: {
+            reply_to_id: id
+        }
+    })
+    return Math.ceil(crowlCount / perPage)
+}
+
 export const getCrowls = (options: IGetCrowlsOptions = {}) => {
     const {
         page = 1,
@@ -69,10 +94,7 @@ export const getCrowls = (options: IGetCrowlsOptions = {}) => {
         shouldPaginate
     } = options
 
-    const pagination = shouldPaginate? {
-        skip: (perPage * page) - perPage,
-        take: perPage
-    } : {}
+    const pagination = shouldPaginate? paginate(page, perPage) : {}
 
     const defaultOptions: FindCrowlParams = includeDefaults ? {
         orderBy: {

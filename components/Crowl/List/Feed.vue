@@ -11,18 +11,20 @@ import {
 import { ExcludedCrowl } from '~/server/database/transformers/crowl';
 
 const props = defineProps<{
-    hasNextPage: boolean,
+    hasNextPage: boolean | undefined,
     fetchNextPage: () => void,
     isFetching: boolean,
     items: ExcludedCrowl[]
 }>()
 
+const crowls = computed(() => props.items)
+
 const { list, containerProps, wrapperProps } = useVirtualList(
-    props.items,
+    crowls,
     {
         itemHeight: (i) => {
             const width = containerProps.ref.value?.clientWidth || DEFAULT_CLIENT_WIDTH
-            const currentItem = props.items.value[i]
+            const currentItem = crowls.value[i]
 
             let linesTakenByText = 0
 
@@ -58,17 +60,24 @@ useInfiniteScroll(
 <template>
 <div v-bind="containerProps" class="h-full offset-padding overflow-x-hidden overflow-y-auto scrollbar-none">
     <slot name="top"></slot>
-
+    
     <div v-bind="wrapperProps">
         <div
             class="pb-4 pr-2 border-b hover:bg-gray-100 dark:hover:bg-dim-700 default-border-color default-transition"
             v-for="item in list" :key="item.data.id"
         >
-            <CrowlItem :crowl="item.data"/>
+            <nuxt-link :to="'/status/' + item.data.id">
+                <CrowlItem :crowl="item.data" compact/>
+            </nuxt-link>
         </div>
     </div>
 
-    <CrowlListNoMore v-if="!hasNextPage" />
-    <CrowlListLoading v-if="isFetching && hasNextPage" />
+    <slot name="noMore" :hasNextPage="hasNextPage">
+        <CrowlListNoMore v-if="!hasNextPage" />
+    </slot>
+
+    <slot name="loader" :isFetching="isFetching" :hasNextPage="hasNextPage">
+        <CrowlListLoading v-if="isFetching && hasNextPage" />
+    </slot>
 </div>
 </template>

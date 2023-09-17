@@ -47,4 +47,7 @@ onMounted(() => {
 .offset-padding {
     padding-top: v-bind(headerHeight);
 }
+.offset-margin {
+    margin-top: v-bind(headerHeight);
+}
 </style>

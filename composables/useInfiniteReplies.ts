@@ -1,5 +1,5 @@
 import { ExcludedCrowl } from '~/server/database/transformers/crowl'
-import { UseInfiniteQueryReturnType, useInfiniteQuery, useQueryClient } from '@tanstack/vue-query';
+import { UseInfiniteQueryReturnType, useInfiniteQuery } from '@tanstack/vue-query';
 
 type CrowlsQuery = {
     crowls: ExcludedCrowl[],
@@ -7,21 +7,19 @@ type CrowlsQuery = {
     pages: number
 }
 
-type InfiniteCrowlsReturn = {
+type ReturnType = {
     items: Ref<ExcludedCrowl[]>,
     query: UseInfiniteQueryReturnType<CrowlsQuery, unknown>,
-    invalidate: () => void
+    clearItems: () => void
 }
 
-const KEY = ['crowls']
-
-export default (): InfiniteCrowlsReturn => {
+export default (id: Ref<number | string>): ReturnType => {
     const items = ref<ExcludedCrowl[]>([])
 
     const query = useInfiniteQuery<CrowlsQuery, unknown, CrowlsQuery>({
-        queryKey: KEY,
+        queryKey: ['crowl_replies'],
         queryFn: ({ signal, pageParam = 1 }) => {
-            return $fetch<CrowlsQuery>('/api/crowls', {
+            return $fetch<CrowlsQuery>(`/api/crowls/${id.value}/replies`, {
                 signal,
                 query: {
                     page: pageParam
@@ -42,15 +40,11 @@ export default (): InfiniteCrowlsReturn => {
         },
     })
 
-    const queryClient = useQueryClient()
-
-    const invalidate = (pageIndex: number = 0): void => {
-        queryClient.invalidateQueries({queryKey: KEY, refetchPage: (_, i) => i === pageIndex})
-    }
-
     return {
         items,
         query,
-        invalidate
+        clearItems: () => {
+            items.value = []
+        }
     }
 }

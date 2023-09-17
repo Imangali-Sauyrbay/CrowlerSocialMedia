@@ -1,25 +1,46 @@
 <script lang="ts" setup>
 import { ExcludedCrowl } from '~/server/database/transformers/crowl';
+
 const props = defineProps<{
     crowl: ExcludedCrowl
 }>()
 
-const replies = computed(() => props.tweet?.replies || [])
+const id = ref<number>(props.crowl.id)
 
-function handleFormSuccess(tweet) {
+const {items, query: {
+    hasNextPage,
+    fetchNextPage,
+    isFetching
+}} = useInfiniteReplies(id)
+
+const handleFormSuccess = (crowl: ExcludedCrowl): void => {
     navigateTo({
-        path: `/status/${tweet.id}`
+        path: `/status/${crowl.id}`
     })
 }
 </script>
 
 <template>
-    <div>
-        <CrowlItem :crowl="props.crowl" />
+    <div class="w-full h-full">
+        <CrowlListFeed
+            :items="items"
+            :fetch-next-page="() => { fetchNextPage() }"
+            :is-fetching="isFetching"
+            :has-next-page="hasNextPage"
+        >
+            <template #top>
+                <CrowlItem :crowl="crowl" class="border-b default-border-color pb-4" />
 
-        <CrowlForm placeholder="Tweet your reply" :reply-to="props.tweet" :user="props.user"
-            @on-success="handleFormSuccess" />
+                <CrowlForm
+                    :placeholder="$t('crowls.reply_placeholder')"
+                    :reply-to="id"
+                    @success="handleFormSuccess"
+                />
+            </template>
 
-        <CrowlListFeed :item="replies" />
+            <template #noMore="{ hasNextPage }">
+                <CrowlListNoMore v-if="!hasNextPage" type="replies"/>
+            </template>
+        </CrowlListFeed>
     </div>
 </template>
