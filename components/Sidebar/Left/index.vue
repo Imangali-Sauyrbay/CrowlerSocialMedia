@@ -8,6 +8,7 @@ import {
     DocumentTextIcon,
     UserIcon,
     EllipsisHorizontalCircleIcon,
+    ChevronDownIcon
 } from "@heroicons/vue/24/outline";
 import {
     HomeIcon as HomeIconSolid,
@@ -20,8 +21,20 @@ import {
     EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid
 } from "@heroicons/vue/24/solid";
 
+defineEmits<{
+    (event: 'logout'): void
+}>()
+
 const { handleOpen } = useCrowlModal()
 const handleModalOpen = () => handleOpen()
+
+const user = useAuthUser()
+const {withDefaultLogo} = useDefaultLogo()
+
+if(!user) {
+    useRouter()
+    .push('/auth/login')
+}
 </script>
 
 <template>
@@ -115,6 +128,32 @@ const handleModalOpen = () => handleOpen()
                     Crowl
                 </UIButton>
                 
+            </div>
+
+            <div
+                class="flex flex-row items-center justify-center px-2 py-2 ml-auto mt-auto mb-5 rounded-full cursor-pointer w-14 xl:w-full hover:bg-gray-100 dark:hover:bg-dim-800 default-transition"
+                @click="$emit('logout')"
+            >
+
+                <div class="flex flex-row">
+                    <img :src="withDefaultLogo(user?.profile)" class="w-10 h-10 rounded-full">
+                    <div class="flex-col hidden ml-2 lg:block">
+                        <h1 class="text-sm font-bold text-gray-800 dark:text-white">
+                            {{ user?.name }}
+                        </h1>
+                        <p class="text-sm text-gray-400">
+                            @{{ user?.username }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- ICON -->
+                <div class="hidden ml-auto lg:block ">
+                    <div class="w-6 h-6 text-gray-800 dark:text-white">
+                        <ChevronDownIcon />
+                    </div>
+                </div>
             </div>
         </div>
     </div>

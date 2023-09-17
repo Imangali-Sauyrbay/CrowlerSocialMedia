@@ -1,14 +1,21 @@
 <script lang="ts" setup>
 const { isFirstLoading } = useFirstLoaderBus();
-const { useAuthUser, initAuth, useAuthInitializing } = useAuth()
+const { useAuthUser, initAuth, useAuthInitializing, logout } = useAuth()
 const user = useAuthUser()
 
 const authLoading = useAuthInitializing()
 const router = useRouter()
 
-watch(authLoading, () => {
-    if(!user.value && !authLoading.value) router.push('/auth/login')
+watch([() => authLoading.value, () => user.value], ([loading, user]) => {
+    if(!user && !loading) router.push('/auth/login')
 })
+
+const handleLogout = () => {
+    logout()
+    .finally(() => {
+        useRouter().push('/auth/login')
+    })
+}
 
 onBeforeMount(() => {
     initAuth()
@@ -28,7 +35,7 @@ onBeforeMount(() => {
         class="mx-auto grid h-full grid-cols-12 sm:px-6 lg:max-w-7xl lg:gap-5 lg:px-8"
     >
         <!-- Left sidebar -->
-        <SidebarLeft />
+        <SidebarLeft @logout="handleLogout"/>
 
         <!-- Main Content -->
         <main

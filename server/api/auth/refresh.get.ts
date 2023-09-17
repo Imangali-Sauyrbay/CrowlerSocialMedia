@@ -4,33 +4,37 @@ import { decodeRefreshToken, generateAccessToken, decodeAccessToken } from '~/se
 import { userExcludeTransformer } from "~/server/database/transformers/user";
 
 export default eventHandler(async (event) => {
-    const refreshTokenCookie = getCookie(event, 'refresh_token')
+    try {
+        const refreshTokenCookie = getCookie(event, 'refresh_token')
 
-    if(! refreshTokenCookie) {
-        return createNotAuthorizedError("Invalid refresh token")
-    }
+        if(! refreshTokenCookie) {
+            return createNotAuthorizedError("Invalid refresh token")
+        }
 
-    const refreshToken = await getRefreshTokenByToken(refreshTokenCookie)
+        const refreshToken = await getRefreshTokenByToken(refreshTokenCookie)
 
-    if(! refreshToken) {
-        return createNotAuthorizedError("Invalid refresh token")
-    }
-    
-    const payload = decodeRefreshToken(refreshToken.token)
+        if(! refreshToken) {
+            return createNotAuthorizedError("Invalid refresh token")
+        }
+        
+        const payload = decodeRefreshToken(refreshToken.token)
 
-    if(! payload) {
-        await deleteRefreshTokenByID(refreshToken.id)
-        return createNotAuthorizedError("Refresh token expired")
-    }
+        if(! payload) {
+            await deleteRefreshTokenByID(refreshToken.id)
+            return createNotAuthorizedError("Refresh token expired")
+        }
 
-    const user = refreshToken.user
-    const accessToken = generateAccessToken(user)
+        const user = refreshToken.user
+        const accessToken = generateAccessToken(user)
 
-    const tenMinutes = 10 * 60 * 1000;
+        const tenMinutes = 10 * 60 * 1000;
 
-    return {
-        access_token: accessToken,
-        exp: Date.now() + tenMinutes,
-        user: userExcludeTransformer(user)
+        return {
+            access_token: accessToken,
+            exp: Date.now() + tenMinutes,
+            user: userExcludeTransformer(user)
+        }
+    } catch (e) {
+        return defaultErrorHandler(e);
     }
 })

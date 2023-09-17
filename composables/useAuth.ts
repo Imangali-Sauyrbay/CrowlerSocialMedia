@@ -56,6 +56,15 @@ const login = async (body: LoginRequest) => {
     )
 }
 
+const logout = async () => {
+    await useFetchApi('/api/auth/logout', {
+        method: 'POST'
+    })
+
+    setToken(null)
+    setUser(null)
+}
+
 const register = (body: RegisterRequest) => {
     return $fetch<RegisterResponce>('/api/auth/register', {
         method: 'POST',
@@ -114,6 +123,7 @@ const initAuth = async () => {
 
 export const useAuth = () => ({
     login,
+    logout,
     register,
     setToken,
     setUser,

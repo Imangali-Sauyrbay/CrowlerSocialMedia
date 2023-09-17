@@ -26,7 +26,6 @@ export const getRefreshTokenByToken = (token: string, includeUser = true) => {
     })
 }
 
-
 export const deleteRefreshTokenByID = (id: number) => {
     return prisma.refreshToken.delete({ where: { id } })
 }

@@ -23,7 +23,8 @@
     },
 
     "search": {
-        "results": "Search: {query}"
+        "results": "Search: {query}",
+        "placeholder": "Search crowls"
     },
 
     "crowls": {

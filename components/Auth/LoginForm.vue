@@ -47,9 +47,9 @@ const isMounted = useIsMounted()
 
             <UIErrorList :errors="unrecognizedFieldsErrors"/>
 
-            <div class="flex justify-between w-full">
-                <button type="submit" @click.prevent="onSubmit" :disabled="!isMounted">{{ $t('form.login') }}</button>
-                <span><nuxt-link to="/auth/register">{{ $t('form.register') }}</nuxt-link></span>
+            <div class="flex items-end flex-col w-full">
+                <UIButton type="submit" @click.prevent="onSubmit" :disabled="isLoading" :isLoading="isLoading" liquid>{{ $t('form.login') }}</UIButton>
+                <span class="mr-5 mt-3 text-gray-600 dark:text-gray-400 font-semibold"><nuxt-link to="/auth/register">{{ $t('form.register') }}</nuxt-link></span>
             </div>
         </form>
     </div>

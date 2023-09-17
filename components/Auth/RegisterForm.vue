@@ -16,7 +16,8 @@ const {
         unrecognizedFieldsErrors
     },
 
-    mutate
+    mutate,
+    isLoading
 } = useRegister()
 
 const onSubmit = async () => {
@@ -32,7 +33,7 @@ const isMounted = useIsMounted()
 <template>
     <div class="w-full h-full">
         <form class="h-full">
-            <div class="space-y-6 pt-5 pr-2 mb-5 w-full max-h-[90%] overflow-x-hidden overflow-y-scroll default-scrollbar">
+            <div class="space-y-6 pt-5 mb-5 w-full max-h-[90%] overflow-x-hidden overflow-y-scroll default-scrollbar">
                 <UIInput
                     :placeholder="$t('form.username.placeholder')"
                     :label="$t('form.username.label')"
@@ -80,9 +81,9 @@ const isMounted = useIsMounted()
 
             <UIErrorList :errors="unrecognizedFieldsErrors"/>
 
-            <div class="flex justify-between w-full">
-                <button type="submit" @click.prevent="onSubmit" :disabled="!isMounted">{{ $t('form.register') }}</button>
-                <span><nuxt-link to="/auth/login">{{ $t('form.login') }}</nuxt-link></span>
+            <div class="flex items-end pr-2 flex-col w-full">
+                <UIButton type="submit" @click.prevent="onSubmit" :disabled="isLoading" :isLoading="isLoading" liquid>{{ $t('form.register') }}</UIButton>
+                <span class="mr-5 mt-3 text-gray-600 dark:text-gray-400 font-semibold"><nuxt-link to="/auth/login">{{ $t('form.login') }}</nuxt-link></span>
             </div>
         </form>
     </div>
