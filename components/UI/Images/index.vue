@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
     images: ([string, string])[],
-    closable: boolean
+    closable: boolean,
+    compact?: boolean
 }>()
 
 defineEmits<{
@@ -50,11 +51,11 @@ const calculateImageClassesToRoundEdges = (i: number) => {
     <template v-if="!!images.length">
         <div
             v-bind="$attrs"
-            class="w-full max-h-96 h-96 grid grid-cols-1 grid-rows-1 gap-1 overflow-hidden"
-            :class="{
+            class="w-full grid grid-cols-1 grid-rows-1 gap-1 overflow-hidden"
+            :class="[{
                 'grid-cols-2': images.length > 1,
                 'grid-rows-2': images.length > 2
-            }"
+            }, compact ? 'max-h-44 h-44' : 'max-h-96 h-96']"
         >
             <TransitionGroup name="image">
                 <UIImagesItem

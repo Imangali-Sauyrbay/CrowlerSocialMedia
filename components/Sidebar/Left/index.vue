@@ -19,6 +19,9 @@ import {
     UserIcon as UserIconSolid,
     EllipsisHorizontalCircleIcon as EllipsisHorizontalCircleIconSolid
 } from "@heroicons/vue/24/solid";
+
+const { handleOpen } = useCrowlModal()
+const handleModalOpen = () => handleOpen()
 </script>
 
 <template>
@@ -92,6 +95,7 @@ import {
 
             <div class="flex-grow w-full mt-4 font-bold flex items-start justify-end lg:justify-stretch">
                 <UIButton
+                    @click="handleModalOpen"
                     :custom-size="true"
                     class="ml-auto lg:hidden p-2 mr-[0.15rem]"
                 >
@@ -99,6 +103,7 @@ import {
                 </UIButton>
 
                 <UIButton
+                    @click="handleModalOpen"
                     :liquid="true"
                     size="lg"
                     class="hidden lg:block"

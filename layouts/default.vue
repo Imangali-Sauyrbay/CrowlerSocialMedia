@@ -19,6 +19,9 @@ onBeforeMount(() => {
     <!-- Splash Screen -->
     <SplashScreen v-if="(user && isFirstLoading) || authLoading" />
 
+    <!-- Crowl Modal -->
+    <CrowlFormModal v-if="user && !isFirstLoading && !authLoading" />
+
     <!-- Main Screen -->
     <div
         v-if="user && !isFirstLoading && !authLoading"

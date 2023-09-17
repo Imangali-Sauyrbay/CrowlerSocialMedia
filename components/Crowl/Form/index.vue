@@ -3,7 +3,8 @@ import { ExcludedCrowl } from '~/server/database/transformers/crowl';
 
 const props = defineProps<{
     placeholder?: string,
-    replyTo?: number
+    replyTo?: number,
+    compact?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -39,6 +40,7 @@ const handleSubmit = (text: string, files: File[]) => {
         :isSuccess="isSuccess"
         :isLoading="isLoading"
         :placeholder="placeholder"
+        :compact="compact"
         class="default-border-color border-b"
     />
 </template>

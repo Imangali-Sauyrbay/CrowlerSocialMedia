@@ -12,12 +12,6 @@ const {items, query: {
     fetchNextPage,
     isFetching
 }} = useInfiniteReplies(id)
-
-const handleFormSuccess = (crowl: ExcludedCrowl): void => {
-    navigateTo({
-        path: `/status/${crowl.id}`
-    })
-}
 </script>
 
 <template>

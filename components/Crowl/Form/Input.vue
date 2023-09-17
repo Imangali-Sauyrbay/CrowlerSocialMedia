@@ -6,7 +6,8 @@ const props = defineProps<{
     errors: [string, string][]
     isLoading: boolean,
     isSuccess: boolean,
-    placeholder?: string
+    placeholder?: string,
+    compact?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -41,7 +42,7 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
 
 <template>
     <div class="h-fit">
-        <div class="flex w-full items-center flex-shrink-0 p-4 pb-0 h-28">
+        <div class="flex w-full items-center flex-shrink-0 p-4 pb-0" :class="[compact ? 'h-20' : 'h-28']">
             <div class="flex w-12 items-start self-start pt-2">
                 <img :src="profile" alt="Profile Picture" class="inline-block w-10 h-10 rounded-full">
             </div>
@@ -69,6 +70,7 @@ const disabeleButton = computed(() => (text.value.length <= 0 && files.value.len
             :images="images"
             :closable="true"
             @removeImage="handleRemoveImage"
+            :compact="compact"
         />
 
         <div class="flex p-2 pl-5 md:pl-14 items-center">
