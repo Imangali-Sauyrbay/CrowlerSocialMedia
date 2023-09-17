@@ -18,34 +18,31 @@ Here's what you can expect from Crow'ler:
 
 ### Main Loader
 
-<div style="display: flex; margin: 20px 0">
-    <img src="./screenshots/splash-screen-white.png" alt="splash-screen-white" style="width: 50%; margin-right: 5px; border: 2px #555 solid">
-    <img src="./screenshots/splash-screen-dark.png" alt="splash-screen-dark" style="width: 50%; border: 2px #555 solid">
-</div>
+![Main Loader light](./screenshots/splash-screen-white.png)
+![Main Loader dark](./screenshots/splash-screen-dark.png)
+
 
 ### Auth Pages
-<div style="display: flex; margin: 20px 0">
-    <img src="./screenshots/login.png" alt="splash-screen-white" style="width: 50%; margin-right: 5px; border: 2px #555 solid">
-    <img src="./screenshots/register.png" alt="splash-screen-dark" style="width: 50%; border: 2px #555 solid">
-</div>
+
+![Auth Pages light](./screenshots/login.png)
+![Auth Pages dark](./screenshots/register.png)
+
 
 ### Main Page
-<div style="display: flex; margin: 20px 0">
-    <img src="./screenshots/main-light.png" alt="splash-screen-white" style="width: 50%; margin-right: 5px; border: 2px #555 solid">
-    <img src="./screenshots/main-dark.png" alt="splash-screen-dark" style="width: 50%; border: 2px #555 solid">
-</div>
+
+![Main Page light](./screenshots/main-light.png)
+![Main Page dark](./screenshots/main-dark.png)
 
 ### Reply Page
-<div style="display: flex; margin: 20px 0">
-    <img src="./screenshots/reply-light.png" alt="splash-screen-white" style="width: 50%; margin-right: 5px; border: 2px #555 solid">
-    <img src="./screenshots/reply-dark.png" alt="splash-screen-dark" style="width: 50%; border: 2px #555 solid">
-</div>
+
+![Reply Page light](./screenshots/reply-light.png)
+![Reply Page dark](./screenshots/reply-dark.png)
 
 ### Reply Modal
-<div style="display: flex; margin: 20px 0">
-    <img src="./screenshots/reply-modal-light.png" alt="splash-screen-white" style="width: 50%; margin-right: 5px; border: 2px #555 solid">
-    <img src="./screenshots/reply-modal-dark.png" alt="splash-screen-dark" style="width: 50%; border: 2px #555 solid">
-</div>
+
+![Reply Modal light](./screenshots/reply-modal-light.png)
+![Reply Modal dark](./screenshots/reply-modal-dark.png)
+
 
 ### Crowl modal
 ![Modal](./screenshots/fast-crowl.png)
